@@ -1,0 +1,195 @@
+export type UserRole = "adolescent" | "counselor" | "ngo" | "police" | "admin"
+
+export type ReportStatus = "submitted" | "under_review" | "assigned" | "in_progress" | "resolved" | "closed"
+
+export type ViolenceType = "physical" | "sexual" | "emotional" | "economic" | "online" | "other"
+
+export type RiskLevel = "low" | "medium" | "high" | "critical"
+
+export interface User {
+  id: string
+  email?: string
+  phone?: string
+  role: UserRole
+  full_name?: string
+  age?: number
+  county: string
+  sub_county?: string
+  preferred_language: string
+  created_at: string
+  updated_at: string
+  last_login?: string
+  is_active: boolean
+}
+
+export interface Report {
+  id: string
+  user_id?: string
+  anonymous_id?: string
+  violence_type: ViolenceType
+  incident_date?: string
+  incident_location?: string
+  incident_coordinates?: {
+    latitude: number
+    longitude: number
+  }
+  description: string
+  status: ReportStatus
+  risk_level?: RiskLevel
+  is_anonymous: boolean
+  assigned_to?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface EvidenceFile {
+  id: string
+  report_id: string
+  file_name: string
+  file_type: string
+  file_size: number
+  storage_path: string
+  encryption_key: string
+  uploaded_at: string
+  uploaded_by?: string
+}
+
+export interface RiskAssessment {
+  id: string
+  report_id: string
+  immediate_danger: boolean
+  has_weapons: boolean
+  threats_made: boolean
+  previous_violence: boolean
+  substance_abuse: boolean
+  isolation: boolean
+  financial_control: boolean
+  risk_score: number
+  risk_level: RiskLevel
+  recommendations?: string
+  created_at: string
+}
+
+export interface SafetyPlan {
+  id: string
+  report_id: string
+  user_id: string
+  emergency_contacts: Array<{
+    name: string
+    phone: string
+    relationship: string
+  }>
+  safe_locations: Array<{
+    name: string
+    address: string
+    notes?: string
+  }>
+  escape_plan?: string
+  important_documents: string[]
+  financial_resources?: string
+  support_network: Array<{
+    name: string
+    type: string
+    contact: string
+  }>
+  created_at: string
+  updated_at: string
+}
+
+export interface ServiceProvider {
+  id: string
+  name: string
+  type: string
+  description?: string
+  address?: string
+  coordinates?: {
+    latitude: number
+    longitude: number
+  }
+  phone?: string
+  email?: string
+  website?: string
+  operating_hours?: Record<string, string>
+  services_offered?: string[]
+  county: string
+  sub_county?: string
+  is_verified: boolean
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface Referral {
+  id: string
+  report_id: string
+  service_provider_id: string
+  referred_by?: string
+  status: "pending" | "accepted" | "completed" | "declined"
+  notes?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface CaseUpdate {
+  id: string
+  report_id: string
+  updated_by?: string
+  update_type: string
+  message: string
+  is_visible_to_reporter: boolean
+  created_at: string
+}
+
+export interface Notification {
+  id: string
+  user_id: string
+  report_id?: string
+  type: string
+  title: string
+  message: string
+  is_read: boolean
+  created_at: string
+}
+
+export interface LearningModule {
+  id: string
+  title: string
+  description?: string
+  content: any
+  category: string
+  difficulty_level: string
+  estimated_time: number
+  points: number
+  sdg_alignment: string[]
+  is_published: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface UserProgress {
+  id: string
+  user_id: string
+  module_id: string
+  completed: boolean
+  score?: number
+  time_spent: number
+  completed_at?: string
+  created_at: string
+}
+
+export interface Badge {
+  id: string
+  name: string
+  description?: string
+  icon?: string
+  criteria: any
+  points: number
+  created_at: string
+}
+
+export interface UserBadge {
+  id: string
+  user_id: string
+  badge_id: string
+  earned_at: string
+}
