@@ -16,6 +16,8 @@ export function EvidenceList({ reportId }: EvidenceListProps) {
   const [files, setFiles] = useState<EvidenceFile[]>([])
   const [loading, setLoading] = useState(true)
   const [downloading, setDownloading] = useState<string | null>(null)
+  const [previewing, setPreviewing] = useState<string | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
   useEffect(() => {
     loadFiles()
@@ -69,6 +71,40 @@ export function EvidenceList({ reportId }: EvidenceListProps) {
     }
   }
 
+  const handlePreview = async (file: EvidenceFile) => {
+    // only images supported for inline preview
+    if (!file.file_type.startsWith("image/")) {
+      alert("Preview available for images only")
+      return
+    }
+
+    setPreviewing(file.id)
+
+    try {
+      const result = await downloadEvidence(file.id)
+
+      if (!result.success || !result.data) {
+        throw new Error(result.error || "Failed to get preview data")
+      }
+
+      const response = await fetch(result.data.url)
+      const encryptedData = await response.arrayBuffer()
+
+      const key = await importKey(result.data.encryptionKey)
+      const iv = new Uint8Array(base64ToArrayBuffer(result.data.iv))
+      const decryptedData = await decryptFile(encryptedData, key, iv)
+
+      const blob = new Blob([decryptedData], { type: file.file_type })
+      const url = URL.createObjectURL(blob)
+      setPreviewUrl(url)
+    } catch (error) {
+      console.error("[v0] Preview error:", error)
+      alert("Failed to generate preview")
+    } finally {
+      setPreviewing(null)
+    }
+  }
+
   const handleDelete = async (evidenceId: string) => {
     if (!confirm("Are you sure you want to delete this file? This action cannot be undone.")) {
       return
@@ -106,6 +142,14 @@ export function EvidenceList({ reportId }: EvidenceListProps) {
     )
   }
 
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePreview(file)}
+                  disabled={previewing === file.id}
+                >
+                  {previewing === file.id ? "Loading..." : "Preview"}
+                </Button>
   return (
     <div className="space-y-3">
       {files.map((file) => (
@@ -115,7 +159,28 @@ export function EvidenceList({ reportId }: EvidenceListProps) {
               <div className="flex items-center gap-3 flex-1 min-w-0">
                 <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                   <File className="h-5 w-5 text-primary" />
-                </div>
+      
+      {previewUrl && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60" role="dialog" aria-modal="true">
+          <div className="bg-white rounded shadow p-4 max-w-3xl w-full">
+            <div className="flex justify-end">
+              <button
+                className="text-sm text-muted-foreground"
+                onClick={() => {
+                  URL.revokeObjectURL(previewUrl)
+                  setPreviewUrl(null)
+                }}
+              >
+                Close
+              </button>
+            </div>
+            <div className="mt-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={previewUrl} alt="Preview" className="max-h-[70vh] w-full object-contain" />
+            </div>
+          </div>
+        </div>
+      )}
                 <div className="flex-1 min-w-0">
                   <p className="font-medium truncate">{file.file_name}</p>
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
