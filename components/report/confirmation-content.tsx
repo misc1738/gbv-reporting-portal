@@ -84,7 +84,7 @@ export function ConfirmationContent() {
               <div>
                 <p className="font-medium">Resource Connection</p>
                 <p className="text-sm text-muted-foreground">
-                  You'll be connected with appropriate support services based on your needs.
+                  You&apos;ll be connected with appropriate support services based on your needs.
                 </p>
               </div>
             </div>
@@ -110,7 +110,7 @@ export function ConfirmationContent() {
               <Phone className="h-5 w-5 text-destructive" />
             </div>
             <CardTitle className="text-lg">Need Immediate Help?</CardTitle>
-            <CardDescription>If you're in danger, contact emergency services</CardDescription>
+            <CardDescription>If you&apos;re in danger, contact emergency services</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             <Button variant="destructive" className="w-full" asChild>

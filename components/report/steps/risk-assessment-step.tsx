@@ -80,8 +80,8 @@ export function RiskAssessmentStep({ data, updateData, onNext, onBack }: RiskAss
             <AlertTriangle className="h-4 w-4" />
             <AlertTitle>High Risk Detected</AlertTitle>
             <AlertDescription>
-              Based on your answers, you may be in serious danger. Please consider calling emergency services (999) or
-              the GBV Helpline (1195) immediately.
+              Based on your answers, you may be at high risk. We strongly recommend contacting a support provider immediately.
+              Don&apos;t worry, this assessment is anonymous and won&apos;t be shared unless you choose to.
             </AlertDescription>
           </Alert>
         )}
@@ -90,11 +90,10 @@ export function RiskAssessmentStep({ data, updateData, onNext, onBack }: RiskAss
           {RISK_QUESTIONS.map((question) => (
             <div
               key={question.key}
-              className={`flex items-start space-x-3 p-4 rounded-lg border ${
-                question.critical && data[question.key]
-                  ? "border-destructive bg-destructive/5"
-                  : "border-border hover:border-primary/50"
-              } transition-colors`}
+              className={`flex items-start space-x-3 p-4 rounded-lg border ${question.critical && data[question.key]
+                ? "border-destructive bg-destructive/5"
+                : "border-border hover:border-primary/50"
+                } transition-colors`}
             >
               <Checkbox
                 id={question.key}
@@ -118,7 +117,7 @@ export function RiskAssessmentStep({ data, updateData, onNext, onBack }: RiskAss
             <Shield className="h-4 w-4" />
             <AlertTitle>Risk Level: {criticalRisks > 0 ? "High" : totalRisks >= 3 ? "Medium" : "Low"}</AlertTitle>
             <AlertDescription>
-              You've indicated {totalRisks} risk factor{totalRisks !== 1 ? "s" : ""}. We'll help you create a safety
+              You&apos;ve indicated {totalRisks} risk factor{totalRisks !== 1 ? "s" : ""}. We&apos;ll help you create a safety
               plan and connect you with appropriate resources.
             </AlertDescription>
           </Alert>

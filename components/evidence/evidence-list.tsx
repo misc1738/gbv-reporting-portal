@@ -142,14 +142,6 @@ export function EvidenceList({ reportId }: EvidenceListProps) {
     )
   }
 
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handlePreview(file)}
-                  disabled={previewing === file.id}
-                >
-                  {previewing === file.id ? "Loading..." : "Preview"}
-                </Button>
   return (
     <div className="space-y-3">
       {files.map((file) => (
@@ -159,28 +151,7 @@ export function EvidenceList({ reportId }: EvidenceListProps) {
               <div className="flex items-center gap-3 flex-1 min-w-0">
                 <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
                   <File className="h-5 w-5 text-primary" />
-      
-      {previewUrl && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60" role="dialog" aria-modal="true">
-          <div className="bg-white rounded shadow p-4 max-w-3xl w-full">
-            <div className="flex justify-end">
-              <button
-                className="text-sm text-muted-foreground"
-                onClick={() => {
-                  URL.revokeObjectURL(previewUrl)
-                  setPreviewUrl(null)
-                }}
-              >
-                Close
-              </button>
-            </div>
-            <div className="mt-2">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={previewUrl} alt="Preview" className="max-h-[70vh] w-full object-contain" />
-            </div>
-          </div>
-        </div>
-      )}
+                </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium truncate">{file.file_name}</p>
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -194,6 +165,16 @@ export function EvidenceList({ reportId }: EvidenceListProps) {
                 </div>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
+                {file.file_type.startsWith("image/") && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handlePreview(file)}
+                    disabled={previewing === file.id}
+                  >
+                    {previewing === file.id ? "Loading..." : "Preview"}
+                  </Button>
+                )}
                 <Button
                   variant="outline"
                   size="sm"
@@ -212,6 +193,30 @@ export function EvidenceList({ reportId }: EvidenceListProps) {
           </CardContent>
         </Card>
       ))}
+
+      {previewUrl && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60" role="dialog" aria-modal="true">
+          <div className="bg-white rounded shadow p-4 max-w-3xl w-full relative">
+            <div className="flex justify-end absolute top-2 right-2">
+              <button
+                className="text-gray-500 hover:text-gray-700"
+                onClick={() => {
+                  URL.revokeObjectURL(previewUrl)
+                  setPreviewUrl(null)
+                }}
+              >
+                <span className="sr-only">Close</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="mt-6 flex justify-center">
+              <img src={previewUrl} alt="Preview" className="max-h-[70vh] w-full object-contain" />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

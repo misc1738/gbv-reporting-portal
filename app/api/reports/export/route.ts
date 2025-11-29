@@ -1,5 +1,5 @@
 import { getSupabaseServerClient } from '@/lib/supabase/server'
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 function escapeCsv(value: any) {
   if (value === null || value === undefined) return ''
   const s = String(value)

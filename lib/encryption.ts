@@ -4,6 +4,10 @@
  */
 
 export async function generateEncryptionKey(): Promise<CryptoKey> {
+  // AES-GCM is an authenticated encryption mode that provides both confidentiality and data integrity.
+  // We use 256-bit keys for strong security.
+  // TODO: For a production system, consider implementing a key rotation strategy where keys are
+  // periodically rotated and old data is re-encrypted or accessible via archived keys.
   return await crypto.subtle.generateKey(
     {
       name: "AES-GCM",

@@ -24,6 +24,9 @@ export function Header() {
           <Link href="/resources" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
             Resources
           </Link>
+          <Link href="/dashboard" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+            Dashboard
+          </Link>
           <Link href="/about" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
             About
           </Link>
@@ -35,9 +38,9 @@ export function Header() {
             <span className="sr-only">Notifications</span>
           </Button>
           <Button variant="ghost" size="icon" asChild>
-            <Link href="/login">
+            <Link href="/dashboard">
               <User className="h-5 w-5" />
-              <span className="sr-only">Account</span>
+              <span className="sr-only">Dashboard</span>
             </Link>
           </Button>
           <Button variant="ghost" size="icon" className="md:hidden">

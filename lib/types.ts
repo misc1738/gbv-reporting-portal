@@ -42,6 +42,37 @@ export interface Report {
   updated_at: string
 }
 
+export interface ReportFormData {
+  // Incident Details
+  violenceType: ViolenceType
+  incidentDate?: Date
+  incidentLocation?: string
+  description: string
+  isAnonymous: boolean
+
+  // Contact Info
+  contactMethod?: "phone" | "email" | "none"
+  contactDetails?: string
+  ageGroup?: string
+  gender?: string
+
+  // Risk Assessment
+  immediateDanger?: boolean
+  hasWeapons?: boolean
+  threatsMade?: boolean
+  previousViolence?: boolean
+  substanceAbuse?: boolean
+  isolation?: boolean
+  financialControl?: boolean
+
+  // Safety Plan
+  emergencyContacts?: Array<{ name: string; phone: string; relationship: string }>
+  safeLocations?: Array<{ name: string; address: string }>
+
+  // Evidence
+  evidenceFiles?: EvidenceFile[]
+}
+
 export interface EvidenceFile {
   id: string
   report_id: string
@@ -151,11 +182,24 @@ export interface Notification {
   created_at: string
 }
 
+export interface ApiResponse<T = unknown> {
+  success: boolean
+  data?: T
+  error?: string
+}
+
+export interface PaginatedResponse<T = unknown> {
+  data: T[]
+  total: number
+  page: number
+  limit: number
+}
+
 export interface LearningModule {
   id: string
   title: string
   description?: string
-  content: any
+  content: unknown
   category: string
   difficulty_level: string
   estimated_time: number
@@ -182,7 +226,7 @@ export interface Badge {
   name: string
   description?: string
   icon?: string
-  criteria: any
+  criteria: unknown
   points: number
   created_at: string
 }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { Progress } from "@/components/ui/progress"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Upload, Lock, CheckCircle2, AlertCircle, File as FileIcon } from "lucide-react"
+import { Upload, Lock, AlertCircle, File as FileIcon } from "lucide-react"
 import { generateEncryptionKey, encryptFile, exportKey, arrayBufferToBase64 } from "@/lib/encryption"
 import { uploadEvidence } from "@/app/actions/evidence"
 
@@ -95,7 +95,7 @@ export function EvidenceUploader({ reportId, onUploadComplete }: EvidenceUploade
         const { encryptedData, iv } = await encryptFile(f.file, encryptionKey)
         const exportedKey = await exportKey(encryptionKey)
         const encryptedBase64 = arrayBufferToBase64(encryptedData)
-        const ivBase64 = arrayBufferToBase64(iv)
+        const ivBase64 = arrayBufferToBase64(iv.buffer)
 
         updateFile(f.id, { status: "uploading", progress: 40, message: "Uploading" })
 
@@ -113,8 +113,9 @@ export function EvidenceUploader({ reportId, onUploadComplete }: EvidenceUploade
         if (!result.success) throw new Error(result.error || "Upload failed")
 
         updateFile(f.id, { status: "success", progress: 100, message: "Uploaded" })
-      } catch (err: any) {
-        updateFile(f.id, { status: "error", progress: 0, error: err?.message ?? "Upload failed" })
+      } catch (err: unknown) {
+        const errorMessage = err instanceof Error ? err.message : "Upload failed"
+        updateFile(f.id, { status: "error", progress: 0, error: errorMessage })
       }
     }
 
@@ -174,7 +175,6 @@ export function EvidenceUploader({ reportId, onUploadComplete }: EvidenceUploade
             <div key={f.id} className="flex items-center gap-4 p-3 border rounded-lg">
               <div className="h-16 w-16 flex items-center justify-center bg-primary/5 rounded overflow-hidden">
                 {f.kind === "image" && f.preview ? (
-                  // eslint-disable-next-line @next/next/no-img-element
                   <img src={f.preview} alt={f.file.name} className="h-full w-full object-cover" />
                 ) : (
                   <FileIcon className="h-6 w-6 text-muted-foreground" />

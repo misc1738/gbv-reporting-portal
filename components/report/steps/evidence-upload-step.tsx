@@ -10,8 +10,9 @@ import { Upload, File, X, Lock } from "lucide-react"
 import type { ReportFormData } from "@/lib/types"
 
 interface EvidenceUploadStepProps {
-  data: ReportFormData
-  updateData: (data: Partial<ReportFormData>) => void
+  data: Omit<ReportFormData, "evidenceFiles"> & { evidenceFiles: File[] }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  updateData: (data: any) => void
   onNext: () => void
   onBack: () => void
 }
@@ -47,7 +48,7 @@ export function EvidenceUploadStep({ data, updateData, onNext, onBack }: Evidenc
   }
 
   const handleFiles = (files: File[]) => {
-    const newFiles = [...data.evidenceFiles, ...files]
+    const newFiles = [...(data.evidenceFiles || []), ...files]
     updateData({ evidenceFiles: newFiles })
   }
 
@@ -85,9 +86,8 @@ export function EvidenceUploadStep({ data, updateData, onNext, onBack }: Evidenc
         </Alert>
 
         <div
-          className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-            dragActive ? "border-primary bg-primary/5" : "border-border hover:border-primary/50"
-          }`}
+          className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${dragActive ? "border-primary bg-primary/5" : "border-border hover:border-primary/50"
+            }`}
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
           onDragOver={handleDrag}

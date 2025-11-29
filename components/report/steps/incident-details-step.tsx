@@ -9,8 +9,13 @@ import { Checkbox } from "@/components/ui/checkbox"
 import type { ReportFormData, ViolenceType } from "@/lib/types"
 
 interface IncidentDetailsStepProps {
-  data: ReportFormData
-  updateData: (data: Partial<ReportFormData>) => void
+  data: Omit<ReportFormData, "violenceType" | "incidentDate" | "evidenceFiles"> & {
+    violenceType: ViolenceType | ""
+    incidentDate?: string | Date
+    evidenceFiles: File[]
+  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  updateData: (data: any) => void
   onNext: () => void
 }
 
@@ -67,7 +72,11 @@ export function IncidentDetailsStep({ data, updateData, onNext }: IncidentDetail
             <Input
               id="incidentDate"
               type="date"
-              value={data.incidentDate || ""}
+              value={
+                data.incidentDate instanceof Date
+                  ? data.incidentDate.toISOString().split("T")[0]
+                  : data.incidentDate || ""
+              }
               onChange={(e) => updateData({ incidentDate: e.target.value })}
               max={new Date().toISOString().split("T")[0]}
             />

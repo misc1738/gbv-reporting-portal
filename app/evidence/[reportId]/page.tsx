@@ -6,7 +6,8 @@ import { EvidenceList } from "@/components/evidence/evidence-list"
 import { Shield, Lock } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
-export default function EvidenceVaultPage({ params }: { params: { reportId: string } }) {
+export default async function EvidenceVaultPage(props: { params: Promise<{ reportId: string }> }) {
+  const params = await props.params
   return (
     <div className="flex min-h-screen flex-col">
       <Header />

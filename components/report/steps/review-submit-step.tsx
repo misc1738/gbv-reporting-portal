@@ -46,7 +46,8 @@ export function ReviewSubmitStep({ data, onBack }: ReviewSubmitStepProps) {
         <div>
           <h3 className="text-lg font-semibold mb-2">Review Your Report</h3>
           <p className="text-sm text-muted-foreground">
-            Please review the information below before submitting. You can go back to make changes.
+            By submitting this report, you confirm that the information provided is true to the best of your knowledge.
+            We&apos;ll encrypt your data immediately.
           </p>
         </div>
 
@@ -105,7 +106,7 @@ export function ReviewSubmitStep({ data, onBack }: ReviewSubmitStepProps) {
         </div>
 
         {/* Evidence Summary */}
-        {data.evidenceFiles.length > 0 && (
+        {data.evidenceFiles && data.evidenceFiles.length > 0 && (
           <div className="space-y-3 p-4 rounded-lg border border-border">
             <div className="flex items-center gap-2">
               <Shield className="h-5 w-5 text-accent" />
@@ -120,20 +121,20 @@ export function ReviewSubmitStep({ data, onBack }: ReviewSubmitStepProps) {
         )}
 
         {/* Safety Plan Summary */}
-        {(data.emergencyContacts.length > 0 || data.safeLocations.length > 0) && (
+        {((data.emergencyContacts?.length ?? 0) > 0 || (data.safeLocations?.length ?? 0) > 0) && (
           <div className="space-y-3 p-4 rounded-lg border border-border">
             <div className="flex items-center gap-2">
               <Users className="h-5 w-5 text-primary" />
               <Label className="text-base font-semibold">Safety Plan</Label>
             </div>
             <div className="space-y-1 text-sm">
-              {data.emergencyContacts.length > 0 && (
+              {data.emergencyContacts && data.emergencyContacts.length > 0 && (
                 <div>
                   <span className="text-muted-foreground">Emergency contacts:</span>{" "}
                   <span className="font-medium">{data.emergencyContacts.length}</span>
                 </div>
               )}
-              {data.safeLocations.length > 0 && (
+              {data.safeLocations && data.safeLocations.length > 0 && (
                 <div>
                   <span className="text-muted-foreground">Safe locations:</span>{" "}
                   <span className="font-medium">{data.safeLocations.length}</span>
@@ -149,9 +150,9 @@ export function ReviewSubmitStep({ data, onBack }: ReviewSubmitStepProps) {
           <AlertDescription className="space-y-2">
             <p>After submitting your report:</p>
             <ul className="list-disc list-inside space-y-1 text-sm">
-              <li>You'll receive a tracking ID to monitor your case</li>
+              <li>You&apos;ll receive a tracking ID to monitor your case</li>
               <li>Our team will review your report within 24 hours</li>
-              <li>You'll be connected with appropriate support services</li>
+              <li>You&apos;ll be connected with appropriate support services</li>
               <li>All information remains confidential and encrypted</li>
             </ul>
           </AlertDescription>
