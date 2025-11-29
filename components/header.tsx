@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Shield, Menu, Bell, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export function Header() {
   return (
@@ -24,6 +25,9 @@ export function Header() {
           <Link href="/resources" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
             Resources
           </Link>
+          <Link href="/appointments" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+            Book Appointment
+          </Link>
           <Link href="/dashboard" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
             Dashboard
           </Link>
@@ -33,6 +37,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <Button variant="ghost" size="icon" className="hidden md:flex">
             <Bell className="h-5 w-5" />
             <span className="sr-only">Notifications</span>

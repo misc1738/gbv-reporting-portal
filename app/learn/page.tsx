@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CheckCircle, PlayCircle, Shield, Heart, Scale } from "lucide-react"
+import Link from "next/link"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 
@@ -142,7 +143,9 @@ export default function LearnPage() {
                                                 </div>
                                             </CardContent>
                                             <CardFooter className="border-t bg-muted/20 pt-4">
-                                                <Button className="w-full">Continue Learning</Button>
+                                                <Button className="w-full" asChild>
+                                                    <Link href={`/learn/${module.id}`}>Continue Learning</Link>
+                                                </Button>
                                             </CardFooter>
                                         </Card>
                                     ))}
