@@ -100,6 +100,16 @@ export default function ResourcesPage() {
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
                             </div>
+                            <Button variant="outline" onClick={async () => {
+                                const { getUserLocation } = await import("@/lib/location")
+                                const location = await getUserLocation()
+                                if (location) {
+                                    setSearchQuery(location.city)
+                                }
+                            }}>
+                                <MapPin className="mr-2 h-4 w-4" />
+                                Use my location
+                            </Button>
                             <Button variant="outline">
                                 <Filter className="mr-2 h-4 w-4" />
                                 Filter
