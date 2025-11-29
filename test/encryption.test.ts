@@ -1,10 +1,12 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { generateEncryptionKey, encryptFile, decryptFile, exportKey, importKey, arrayBufferToBase64, base64ToArrayBuffer } from '../lib/encryption';
 
 // Polyfill for Web Crypto API in Node.js environment if needed
 // Vitest with jsdom environment should have it, but just in case
 if (!global.crypto) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const { webcrypto } = require('node:crypto');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     global.crypto = webcrypto as any;
 }
 
