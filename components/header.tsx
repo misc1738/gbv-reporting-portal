@@ -5,12 +5,15 @@ import Link from "next/link"
 import { Shield, Menu, X, Bell } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { useTranslations } from "next-intl"
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const t = useTranslations("Header")
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,12 +24,12 @@ export function Header() {
   }, [])
 
   const navLinks = [
-    { href: "/report", label: "Report Incident" },
-    { href: "/learn", label: "Learn" },
-    { href: "/resources", label: "Resources" },
-    { href: "/appointments", label: "Book Appointment" },
-    { href: "/track-case", label: "Track Case" },
-    { href: "/about", label: "About" },
+    { href: "/report", label: t("reportIncident") },
+    { href: "/learn", label: t("learn") },
+    { href: "/resources", label: t("resources") },
+    { href: "/safety-plan", label: t("safetyPlan") },
+    { href: "/track-case", label: t("trackCase") },
+    { href: "/faq", label: t("faq") },
   ]
 
   return (
@@ -62,6 +65,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <LanguageSwitcher />
           <ThemeToggle />
           <Button variant="ghost" size="icon" className="hidden md:flex hover-lift transition-smooth hover:bg-primary/5 rounded-full">
             <Bell className="h-5 w-5" />

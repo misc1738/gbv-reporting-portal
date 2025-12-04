@@ -95,7 +95,7 @@ export function EvidenceUploader({ reportId, onUploadComplete }: EvidenceUploade
         const { encryptedData, iv } = await encryptFile(f.file, encryptionKey)
         const exportedKey = await exportKey(encryptionKey)
         const encryptedBase64 = arrayBufferToBase64(encryptedData)
-        const ivBase64 = arrayBufferToBase64(iv.buffer)
+        const ivBase64 = arrayBufferToBase64(iv.buffer as ArrayBuffer)
 
         updateFile(f.id, { status: "uploading", progress: 40, message: "Uploading" })
 

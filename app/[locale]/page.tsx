@@ -9,8 +9,12 @@ import { Footer } from "@/components/footer"
 import { QuickExit } from "@/components/quick-exit"
 import { TiltCard } from "@/components/ui/tilt-card"
 import { motion } from "framer-motion"
+import { useTranslations } from "next-intl"
 
 export default function HomePage() {
+  const t = useTranslations("Hero")
+
+
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -61,12 +65,12 @@ export default function HomePage() {
               </motion.div>
 
               <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-balance leading-[1.1]">
-                Your Voice Matters.<br />
+                {t("title")}<br />
                 <span className="text-gradient-primary drop-shadow-sm">Your Safety</span> Comes First.
               </h1>
 
               <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed text-pretty max-w-2xl mx-auto">
-                A secure, encrypted platform for reporting gender-based violence and accessing life-saving support services.
+                {t("subtitle")}
                 <span className="block mt-2 text-foreground font-medium">You are not alone.</span>
               </p>
 
@@ -79,13 +83,13 @@ export default function HomePage() {
                 <Button size="lg" variant="glow" asChild className="text-lg h-14 px-8 rounded-full">
                   <Link href="/report">
                     <AlertCircle className="mr-2 h-5 w-5" />
-                    Report Incident
+                    {t("reportButton")}
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild className="text-lg h-14 px-8 rounded-full glass-strong border-primary/20 hover:bg-primary/5">
                   <Link href="/resources">
                     <MapPin className="mr-2 h-5 w-5" />
-                    Find Help Near You
+                    {t("getHelpButton")}
                   </Link>
                 </Button>
               </motion.div>

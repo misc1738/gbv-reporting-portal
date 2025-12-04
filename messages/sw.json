@@ -1,0 +1,22 @@
+{
+    "Header": {
+        "reportIncident": "Ripoti Tukio",
+        "trackCase": "Fuatilia Kesi",
+        "resources": "Rasilimali",
+        "learn": "Jifunze",
+        "safetyPlan": "Mpango wa Usalama",
+        "faq": "Maswali"
+    },
+    "Hero": {
+        "title": "Vunja Ukimya dhidi ya Ukatili wa Kijinsia",
+        "subtitle": "Jukwaa salama, la siri na la kuaminika la kuripoti Ukatili wa Kijinsia na kupata msaada.",
+        "reportButton": "Ripoti Tukio",
+        "getHelpButton": "Pata Msaada Sasa"
+    },
+    "Common": {
+        "back": "Nyuma",
+        "next": "Inayofuata",
+        "submit": "Wasilisha",
+        "loading": "Inapakia..."
+    }
+}

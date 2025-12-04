@@ -1,0 +1,22 @@
+{
+    "Header": {
+        "reportIncident": "Report Incident",
+        "trackCase": "Track Case",
+        "resources": "Resources",
+        "learn": "Learn",
+        "safetyPlan": "Safety Plan",
+        "faq": "FAQ"
+    },
+    "Hero": {
+        "title": "Break the Silence on GBV",
+        "subtitle": "A safe, anonymous, and secure platform to report Gender-Based Violence and access support.",
+        "reportButton": "Report Incident",
+        "getHelpButton": "Get Help Now"
+    },
+    "Common": {
+        "back": "Back",
+        "next": "Next",
+        "submit": "Submit",
+        "loading": "Loading..."
+    }
+}

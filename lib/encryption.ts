@@ -38,7 +38,7 @@ export async function decryptFile(encryptedData: ArrayBuffer, key: CryptoKey, iv
   return await crypto.subtle.decrypt(
     {
       name: "AES-GCM",
-      iv: iv,
+      iv: iv as unknown as BufferSource,
     },
     key,
     encryptedData,
