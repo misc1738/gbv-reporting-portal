@@ -8,8 +8,11 @@ export default function FAQPage() {
     return (
         <div className="flex min-h-screen flex-col">
             <Header />
-            <main className="flex-1 py-12">
-                <div className="container max-w-4xl">
+            <main className="flex-1 py-12 relative overflow-hidden">
+                {/* Background Gradients */}
+                <div className="absolute inset-0 bg-gradient-hero opacity-30 -z-10" />
+
+                <div className="container max-w-4xl relative z-10">
                     <div className="text-center mb-12">
                         <h1 className="text-4xl font-bold tracking-tight mb-4">Frequently Asked Questions</h1>
                         <p className="text-lg text-muted-foreground">

@@ -178,8 +178,11 @@ export default function ResourcesPage() {
     return (
         <div className="flex min-h-screen flex-col">
             <Header />
-            <main className="flex-1 py-12 bg-muted/30">
-                <div className="container">
+            <main className="flex-1 py-12 relative overflow-hidden">
+                {/* Background Gradients */}
+                <div className="absolute inset-0 bg-gradient-hero opacity-30 -z-10" />
+
+                <div className="container relative z-10">
                     <div className="max-w-4xl mx-auto space-y-8">
                         <div className="text-center space-y-4">
                             <h1 className="text-4xl font-bold tracking-tight">Support Resources</h1>
@@ -190,17 +193,17 @@ export default function ResourcesPage() {
                         </div>
 
                         {/* Search and Filter */}
-                        <div className="flex flex-col sm:flex-row gap-4">
+                        <div className="flex flex-col sm:flex-row gap-4 glass p-4 rounded-xl">
                             <div className="relative flex-1">
                                 <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                                 <Input
                                     placeholder="Search by name, location, or service type..."
-                                    className="pl-9"
+                                    className="pl-9 bg-background/50 border-white/10"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
                             </div>
-                            <Button variant="outline" onClick={async () => {
+                            <Button variant="outline" className="hover-lift" onClick={async () => {
                                 const { getUserLocation } = await import("@/lib/location")
                                 const location = await getUserLocation()
                                 if (location) {
@@ -210,7 +213,7 @@ export default function ResourcesPage() {
                                 <MapPin className="mr-2 h-4 w-4" />
                                 Use my location
                             </Button>
-                            <Button variant="outline">
+                            <Button variant="outline" className="hover-lift">
                                 <Filter className="mr-2 h-4 w-4" />
                                 Filter
                             </Button>
@@ -220,7 +223,7 @@ export default function ResourcesPage() {
                         <div className="grid gap-6">
                             {filteredResources.length > 0 ? (
                                 filteredResources.map((resource) => (
-                                    <Card key={resource.id} className="overflow-hidden">
+                                    <Card key={resource.id} className="overflow-hidden glass border-white/10 hover-lift transition-all duration-300">
                                         <div className="flex flex-col md:flex-row">
                                             <div className="flex-1 p-6">
                                                 <div className="flex items-start justify-between mb-2">

@@ -111,8 +111,11 @@ export default function LearnPage() {
     return (
         <div className="flex min-h-screen flex-col">
             <Header />
-            <main className="flex-1 py-12 bg-muted/30">
-                <div className="container">
+            <main className="flex-1 py-12 relative overflow-hidden">
+                {/* Background Gradients */}
+                <div className="absolute inset-0 bg-gradient-hero opacity-30 -z-10" />
+
+                <div className="container relative z-10">
                     <div className="max-w-5xl mx-auto space-y-8">
                         <div className="flex flex-col md:flex-row gap-8 items-center justify-between">
                             <div className="space-y-4">
@@ -122,13 +125,13 @@ export default function LearnPage() {
                                 </p>
                             </div>
 
-                            <Card className="w-full md:w-80">
+                            <Card className="w-full md:w-80 glass border-primary/20 shadow-lg">
                                 <CardHeader className="pb-2">
                                     <CardTitle className="text-sm font-medium text-muted-foreground">Your Progress</CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="flex items-end justify-between mb-2">
-                                        <span className="text-3xl font-bold">{progress}%</span>
+                                        <span className="text-3xl font-bold text-primary">{progress}%</span>
                                         <span className="text-sm text-muted-foreground mb-1">Level 2 Scholar</span>
                                     </div>
                                     <Progress value={progress} className="h-2" />
@@ -140,7 +143,7 @@ export default function LearnPage() {
                         </div>
 
                         <Tabs defaultValue="all" className="space-y-6">
-                            <TabsList>
+                            <TabsList className="glass p-1">
                                 <TabsTrigger value="all">All Modules</TabsTrigger>
                                 <TabsTrigger value="in-progress">In Progress</TabsTrigger>
                                 <TabsTrigger value="completed">Completed</TabsTrigger>
@@ -150,7 +153,7 @@ export default function LearnPage() {
                             <TabsContent value="all" className="space-y-6">
                                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {modules.map((module) => (
-                                        <Card key={module.id} className="flex flex-col overflow-hidden hover:shadow-md transition-shadow">
+                                        <Card key={module.id} className="flex flex-col overflow-hidden glass hover-lift border-white/10 transition-all duration-300">
                                             <div className={`h-2 w-full ${module.bgColor.replace('/10', '')}`} />
                                             <CardHeader>
                                                 <div className={`w-12 h-12 rounded-lg ${module.bgColor} flex items-center justify-center mb-4`}>
