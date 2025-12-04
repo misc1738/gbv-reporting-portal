@@ -15,8 +15,7 @@ export default function ReportPage() {
             <div className="space-y-2">
               <h1 className="text-3xl md:text-4xl font-bold text-balance">Report an Incident</h1>
               <p className="text-lg text-muted-foreground text-pretty">
-                Your report is confidential and secure. You can choose to remain anonymous or create an account to track
-                your case.
+                Your report is confidential and secure. You will receive a unique Case ID to track your report anonymously.
               </p>
             </div>
 

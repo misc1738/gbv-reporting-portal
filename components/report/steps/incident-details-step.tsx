@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Checkbox } from "@/components/ui/checkbox"
 import type { ReportFormData, ViolenceType } from "@/lib/types"
 
 interface IncidentDetailsStepProps {
@@ -124,17 +123,12 @@ export function IncidentDetailsStep({ data, updateData, onNext }: IncidentDetail
         </div>
 
         <div className="flex items-start space-x-3 p-4 rounded-lg bg-muted/50">
-          <Checkbox
-            id="isAnonymous"
-            checked={data.isAnonymous}
-            onCheckedChange={(checked) => updateData({ isAnonymous: checked as boolean })}
-          />
           <div className="flex-1">
-            <Label htmlFor="isAnonymous" className="font-medium cursor-pointer">
-              Submit this report anonymously
+            <Label className="font-medium">
+              Anonymous Reporting
             </Label>
             <p className="text-sm text-muted-foreground mt-1">
-              Your identity will be protected. You can create an account later to track your case.
+              Your identity is protected. You will be given a Case ID to track your report without needing an account.
             </p>
           </div>
         </div>

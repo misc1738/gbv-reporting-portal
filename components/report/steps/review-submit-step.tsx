@@ -80,7 +80,7 @@ export function ReviewSubmitStep({ data, onBack }: ReviewSubmitStepProps) {
             </div>
             <div>
               <span className="text-muted-foreground">Reporting as:</span>{" "}
-              <span className="font-medium">{data.isAnonymous ? "Anonymous" : "Registered User"}</span>
+              <span className="font-medium">Anonymous</span>
             </div>
           </div>
         </div>

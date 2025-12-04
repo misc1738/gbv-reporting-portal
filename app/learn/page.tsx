@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { CheckCircle, PlayCircle, Shield, Heart, Scale } from "lucide-react"
+import { CheckCircle, PlayCircle, Shield, Heart, Scale, Users, Briefcase } from "lucide-react"
 import Link from "next/link"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
@@ -26,6 +26,8 @@ export default function LearnPage() {
                 { title: "Protection Against Domestic Violence Act", duration: "8 min", completed: true },
                 { title: "Reporting Procedures", duration: "6 min", completed: false },
                 { title: "Legal Aid Access", duration: "4 min", completed: false },
+                { title: "Rights of a Survivor", duration: "7 min", completed: false },
+                { title: "Court Process Overview", duration: "10 min", completed: false },
             ],
         },
         {
@@ -40,6 +42,8 @@ export default function LearnPage() {
                 { title: "Creating an Exit Plan", duration: "10 min", completed: false },
                 { title: "Emergency Contacts", duration: "3 min", completed: false },
                 { title: "Digital Safety", duration: "7 min", completed: false },
+                { title: "Safety in Public Spaces", duration: "6 min", completed: false },
+                { title: "Protecting Children", duration: "8 min", completed: false },
             ],
         },
         {
@@ -54,6 +58,8 @@ export default function LearnPage() {
                 { title: "Self-Care Practices", duration: "5 min", completed: false },
                 { title: "Finding a Support Group", duration: "4 min", completed: false },
                 { title: "Professional Counseling", duration: "5 min", completed: false },
+                { title: "Coping Mechanisms", duration: "7 min", completed: false },
+                { title: "Rebuilding Trust", duration: "9 min", completed: false },
             ],
         },
         {
@@ -68,6 +74,36 @@ export default function LearnPage() {
                 { title: "Social Media Privacy", duration: "7 min", completed: false },
                 { title: "Device Safety", duration: "6 min", completed: false },
                 { title: "Online Harassment", duration: "8 min", completed: false },
+                { title: "Collecting Digital Evidence", duration: "10 min", completed: false },
+                { title: "Cyberstalking Protection", duration: "7 min", completed: false },
+            ],
+        },
+        {
+            id: "bystander",
+            title: "Bystander Intervention",
+            description: "How to safely intervene and support others.",
+            icon: Users,
+            color: "text-green-500",
+            bgColor: "bg-green-500/10",
+            lessons: [
+                { title: "The 5 Ds of Intervention", duration: "8 min", completed: false },
+                { title: "Supporting a Survivor", duration: "6 min", completed: false },
+                { title: "Reporting as a Witness", duration: "5 min", completed: false },
+                { title: "Creating Safe Communities", duration: "7 min", completed: false },
+            ],
+        },
+        {
+            id: "workplace",
+            title: "Workplace Safety",
+            description: "Addressing harassment and discrimination at work.",
+            icon: Briefcase,
+            color: "text-amber-500",
+            bgColor: "bg-amber-500/10",
+            lessons: [
+                { title: "Defining Workplace Harassment", duration: "6 min", completed: false },
+                { title: "Reporting Channels", duration: "5 min", completed: false },
+                { title: "Employee Rights", duration: "7 min", completed: false },
+                { title: "Supportive Work Culture", duration: "8 min", completed: false },
             ],
         },
     ]
