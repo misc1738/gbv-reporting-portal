@@ -114,7 +114,11 @@ export default function AppointmentsPage() {
                                                 selected={date}
                                                 onSelect={setDate}
                                                 className="rounded-md border"
-                                                disabled={(date) => date < new Date() || date.getDay() === 0 || date.getDay() === 6}
+                                                disabled={(date) => {
+                                                    const today = new Date()
+                                                    today.setHours(0, 0, 0, 0)
+                                                    return date < today || date.getDay() === 0 || date.getDay() === 6
+                                                }}
                                             />
                                         </div>
                                     </div>
