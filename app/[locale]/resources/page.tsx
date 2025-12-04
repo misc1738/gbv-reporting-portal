@@ -5,7 +5,14 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { MapPin, Phone, Globe, Search, Filter } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { MapPin, Phone, Globe, Search, Filter, LayoutList, Map } from "lucide-react"
+import dynamic from "next/dynamic"
+
+const ResourceMap = dynamic(() => import("@/components/resources/resource-map"), {
+    ssr: false,
+    loading: () => <div className="h-[600px] w-full bg-muted animate-pulse rounded-xl" />
+})
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 
@@ -20,6 +27,8 @@ export default function ResourcesPage() {
             website: "https://nwh.co.ke",
             description: "Comprehensive medical and psychological support for survivors of gender-based violence. Services include post-rape care, trauma counseling, and forensic evidence collection.",
             tags: ["24/7", "Medical", "Counseling", "Forensic"],
+            lat: -1.3005,
+            lng: 36.7846
         },
         {
             id: 2,
@@ -50,6 +59,8 @@ export default function ResourcesPage() {
             website: "https://lvcthealth.org",
             description: "Specialized HIV testing, counseling, and post-violence care. They focus on youth-friendly services and mental health support for survivors.",
             tags: ["Health", "Counseling", "Youth Friendly", "HIV Care"],
+            lat: -1.2889,
+            lng: 36.7916
         },
         {
             id: 5,
@@ -60,6 +71,8 @@ export default function ResourcesPage() {
             website: "https://creawkenya.org",
             description: "Legal support, advocacy, and economic empowerment programs for women. They provide holistic support to help survivors rebuild their lives.",
             tags: ["Advocacy", "Legal", "Empowerment", "Economic Support"],
+            lat: -1.2907,
+            lng: 36.7828
         },
         {
             id: 6,
@@ -219,71 +232,91 @@ export default function ResourcesPage() {
                             </Button>
                         </div>
 
-                        {/* Resources List */}
-                        <div className="grid gap-6">
-                            {filteredResources.length > 0 ? (
-                                filteredResources.map((resource) => (
-                                    <Card key={resource.id} className="overflow-hidden glass border-white/10 hover-lift transition-all duration-300">
-                                        <div className="flex flex-col md:flex-row">
-                                            <div className="flex-1 p-6">
-                                                <div className="flex items-start justify-between mb-2">
-                                                    <div>
-                                                        <h3 className="text-xl font-semibold">{resource.name}</h3>
-                                                        <p className="text-sm text-primary font-medium mb-2">{resource.type}</p>
-                                                    </div>
-                                                    <Button variant="outline" size="sm" className="hidden md:flex">
-                                                        <MapPin className="mr-2 h-4 w-4" />
-                                                        Directions
-                                                    </Button>
-                                                </div>
+                        <Tabs defaultValue="list" className="w-full">
+                            <div className="flex items-center justify-between mb-6">
+                                <TabsList>
+                                    <TabsTrigger value="list" className="px-4">
+                                        <LayoutList className="mr-2 h-4 w-4" />
+                                        List View
+                                    </TabsTrigger>
+                                    <TabsTrigger value="map" className="px-4">
+                                        <Map className="mr-2 h-4 w-4" />
+                                        Map View
+                                    </TabsTrigger>
+                                </TabsList>
+                            </div>
 
-                                                <p className="text-muted-foreground mb-4">{resource.description}</p>
+                            <TabsContent value="list" className="mt-0">
+                                <div className="grid gap-6">
+                                    {filteredResources.length > 0 ? (
+                                        filteredResources.map((resource) => (
+                                            <Card key={resource.id} className="overflow-hidden glass border-white/10 hover-lift transition-all duration-300">
+                                                <div className="flex flex-col md:flex-row">
+                                                    <div className="flex-1 p-6">
+                                                        <div className="flex items-start justify-between mb-2">
+                                                            <div>
+                                                                <h3 className="text-xl font-semibold">{resource.name}</h3>
+                                                                <p className="text-sm text-primary font-medium mb-2">{resource.type}</p>
+                                                            </div>
+                                                            <Button variant="outline" size="sm" className="hidden md:flex">
+                                                                <MapPin className="mr-2 h-4 w-4" />
+                                                                Directions
+                                                            </Button>
+                                                        </div>
 
-                                                <div className="flex flex-wrap gap-2 mb-4">
-                                                    {resource.tags.map((tag) => (
-                                                        <Badge key={tag} variant="secondary">
-                                                            {tag}
-                                                        </Badge>
-                                                    ))}
-                                                </div>
+                                                        <p className="text-muted-foreground mb-4">{resource.description}</p>
 
-                                                <div className="flex flex-col sm:flex-row gap-4 text-sm text-muted-foreground">
-                                                    <div className="flex items-center">
-                                                        <MapPin className="mr-2 h-4 w-4" />
-                                                        {resource.address}
+                                                        <div className="flex flex-wrap gap-2 mb-4">
+                                                            {resource.tags.map((tag) => (
+                                                                <Badge key={tag} variant="secondary">
+                                                                    {tag}
+                                                                </Badge>
+                                                            ))}
+                                                        </div>
+
+                                                        <div className="flex flex-col sm:flex-row gap-4 text-sm text-muted-foreground">
+                                                            <div className="flex items-center">
+                                                                <MapPin className="mr-2 h-4 w-4" />
+                                                                {resource.address}
+                                                            </div>
+                                                            <div className="flex items-center">
+                                                                <Phone className="mr-2 h-4 w-4" />
+                                                                {resource.phone}
+                                                            </div>
+                                                            <div className="flex items-center">
+                                                                <Globe className="mr-2 h-4 w-4" />
+                                                                {resource.website}
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div className="flex items-center">
-                                                        <Phone className="mr-2 h-4 w-4" />
-                                                        {resource.phone}
-                                                    </div>
-                                                    <div className="flex items-center">
-                                                        <Globe className="mr-2 h-4 w-4" />
-                                                        {resource.website}
+                                                    <div className="bg-muted/50 p-6 flex flex-col justify-center gap-3 border-t md:border-t-0 md:border-l md:w-48">
+                                                        <Button className="w-full">
+                                                            <Phone className="mr-2 h-4 w-4" />
+                                                            Call Now
+                                                        </Button>
+                                                        <Button variant="outline" className="w-full md:hidden">
+                                                            <MapPin className="mr-2 h-4 w-4" />
+                                                            Directions
+                                                        </Button>
+                                                        <Button variant="secondary" className="w-full">
+                                                            Visit Website
+                                                        </Button>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="bg-muted/50 p-6 flex flex-col justify-center gap-3 border-t md:border-t-0 md:border-l md:w-48">
-                                                <Button className="w-full">
-                                                    <Phone className="mr-2 h-4 w-4" />
-                                                    Call Now
-                                                </Button>
-                                                <Button variant="outline" className="w-full md:hidden">
-                                                    <MapPin className="mr-2 h-4 w-4" />
-                                                    Directions
-                                                </Button>
-                                                <Button variant="secondary" className="w-full">
-                                                    Visit Website
-                                                </Button>
-                                            </div>
+                                            </Card>
+                                        ))
+                                    ) : (
+                                        <div className="text-center py-12 text-muted-foreground">
+                                            <p>No resources found matching your search.</p>
                                         </div>
-                                    </Card>
-                                ))
-                            ) : (
-                                <div className="text-center py-12 text-muted-foreground">
-                                    <p>No resources found matching your search.</p>
+                                    )}
                                 </div>
-                            )}
-                        </div>
+                            </TabsContent>
+
+                            <TabsContent value="map" className="mt-0">
+                                <ResourceMap resources={filteredResources} />
+                            </TabsContent>
+                        </Tabs>
                     </div>
                 </div>
             </main>

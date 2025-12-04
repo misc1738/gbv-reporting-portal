@@ -35,7 +35,7 @@ export default function ContactPage() {
                                 <CardContent className="space-y-4">
                                     <div className="flex items-center justify-between p-3 bg-background rounded-lg border">
                                         <span className="font-semibold">National GBV Helpline</span>
-                                        <a href="tel:1195" className="text-primary font-bold hover:underline">1195</a>
+                                        <a href="tel:+2547112268924" className="text-primary font-bold hover:underline">+254 711 226 8924</a>
                                     </div>
                                     <div className="flex items-center justify-between p-3 bg-background rounded-lg border">
                                         <span className="font-semibold">Police Emergency</span>

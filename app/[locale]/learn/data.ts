@@ -97,7 +97,7 @@ export const modulesData: Module[] = [
             {
                 id: "s3",
                 title: "Emergency Contacts List",
-                content: "Keep these numbers accessible (speed dial or hidden in your phone):\n- **Police:** 999 or 112\n- **GBV Helpline:** 1195 (Free, 24/7)\n- **Childline:** 116\n- **Trusted Friend/Family Member**",
+                content: "Keep these numbers accessible (speed dial or hidden in your phone):\n- **Police:** 999 or 112\n- **GBV Helpline:** +254 711 226 8924 (Free, 24/7)\n- **Childline:** 116\n- **Trusted Friend/Family Member",
                 duration: "3 min",
                 completed: false
             },
@@ -156,7 +156,7 @@ export const modulesData: Module[] = [
             {
                 id: "h4",
                 title: "Professional Counseling",
-                content: "Therapy is highly recommended for processing trauma.\n- **Trauma-Informed Care:** Look for therapists trained in GBV/trauma.\n- **Free Services:** Call 1195 for referrals to free counseling centers.\n- **Types:** CBT (Cognitive Behavioral Therapy) and EMDR are effective for trauma.",
+                content: "Therapy is highly recommended for processing trauma.\n- **Trauma-Informed Care:** Look for therapists trained in GBV/trauma.\n- **Free Services:** Call +254 711 226 8924 for referrals to free counseling centers.\n- **Types:** CBT (Cognitive Behavioral Therapy) and EMDR are effective for trauma.",
                 duration: "5 min",
                 completed: false
             },
@@ -246,7 +246,7 @@ export const modulesData: Module[] = [
             {
                 id: "b2",
                 title: "How to Support a Survivor",
-                content: "If someone discloses to you:\n- **Listen:** 'I believe you.' 'It's not your fault.'\n- **Validate:** Don't minimize their pain.\n- **Ask:** 'How can I support you?' (Don't take over).\n- **Resources:** Offer numbers like 1195, but let them decide when to call.",
+                content: "If someone discloses to you:\n- **Listen:** 'I believe you.' 'It's not your fault.'\n- **Validate:** Don't minimize their pain.\n- **Ask:** 'How can I support you?' (Don't take over).\n- **Resources:** Offer numbers like +254 711 226 8924, but let them decide when to call.",
                 duration: "6 min",
                 completed: false
             },

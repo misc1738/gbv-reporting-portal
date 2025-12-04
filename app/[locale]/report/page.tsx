@@ -27,7 +27,7 @@ export default function ReportPage() {
               <AlertTitle className="text-primary font-semibold">Your Safety First</AlertTitle>
               <AlertDescription>
                 If you are in immediate danger, please call emergency services at <strong>999</strong> or the GBV
-                Helpline at <strong>1195</strong>.
+                Helpline at <strong>+254 711 226 8924</strong>.
               </AlertDescription>
             </Alert>
 

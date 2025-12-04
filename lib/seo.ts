@@ -83,7 +83,7 @@ export const organizationSchema = {
     logo: "/logo.png",
     contactPoint: {
         "@type": "ContactPoint",
-        telephone: "+254-1195",
+        telephone: "+2547112268924",
         contactType: "Crisis Hotline",
         areaServed: "KE",
         availableLanguage: ["English", "Swahili"],

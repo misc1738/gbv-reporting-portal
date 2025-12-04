@@ -117,7 +117,7 @@ export function ConfirmationContent() {
               <a href="tel:999">Call Emergency: 999</a>
             </Button>
             <Button variant="outline" className="w-full bg-transparent" asChild>
-              <a href="tel:1195">GBV Helpline: 1195</a>
+              <a href="tel:+2547112268924">GBV Helpline: +254 711 226 8924</a>
             </Button>
           </CardContent>
         </Card>

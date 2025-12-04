@@ -87,7 +87,7 @@ export function Footer() {
               <li className="flex items-start gap-2 glass p-3 rounded-lg hover-lift transition-smooth">
                 <Phone className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="font-medium text-primary">1195</p>
+                  <p className="font-medium text-primary">+254 711 226 8924</p>
                   <p className="text-muted-foreground">GBV Helpline</p>
                 </div>
               </li>

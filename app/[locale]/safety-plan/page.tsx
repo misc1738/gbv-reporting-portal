@@ -266,7 +266,7 @@ export default function SafetyPlanPage() {
                                                 )}
                                             </div>
                                             <div className="mt-8 pt-4 border-t text-center text-xs text-gray-500">
-                                                Emergency: 999 | GBV Helpline: 1195 | Childline: 116
+                                                Emergency: 999 | GBV Helpline: +254 711 226 8924 | Childline: 116
                                             </div>
                                         </div>
                                     </div>

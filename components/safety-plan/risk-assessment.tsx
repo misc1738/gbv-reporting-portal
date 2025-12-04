@@ -71,7 +71,7 @@ export function RiskAssessment({ onComplete }: RiskAssessmentProps) {
                             <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-sm text-red-600 dark:text-red-400 flex items-start gap-2">
                                 <ShieldAlert className="h-5 w-5 shrink-0" />
                                 <div>
-                                    <strong>Please call 999 or 1195 immediately.</strong> Do not continue with this form if you are unsafe.
+                                    <strong>Please call 999 or +254 711 226 8924 immediately.</strong> Do not continue with this form if you are unsafe.
                                 </div>
                             </div>
                         )}

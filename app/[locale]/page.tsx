@@ -204,9 +204,9 @@ export default function HomePage() {
                   </a>
                 </Button>
                 <Button size="lg" variant="outline" asChild className="text-lg h-14 px-8 rounded-full glass hover:bg-background/50">
-                  <a href="tel:1195">
+                  <a href="tel:+2547112268924">
                     <Phone className="mr-2 h-5 w-5" />
-                    GBV Helpline: 1195
+                    GBV Helpline: +254 711 226 8924
                   </a>
                 </Button>
               </div>

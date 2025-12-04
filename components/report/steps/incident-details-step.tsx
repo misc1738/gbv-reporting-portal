@@ -2,7 +2,7 @@
 
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import { VoiceInput } from "@/components/ui/voice-input"
 import { Button } from "@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import type { ReportFormData, ViolenceType } from "@/lib/types"
@@ -107,7 +107,7 @@ export function IncidentDetailsStep({ data, updateData, onNext }: IncidentDetail
 
         <div className="space-y-2">
           <Label htmlFor="description">What happened? *</Label>
-          <Textarea
+          <VoiceInput
             id="description"
             placeholder="Please describe the incident in as much detail as you feel comfortable sharing. This information will help us provide appropriate support."
             value={data.description}
