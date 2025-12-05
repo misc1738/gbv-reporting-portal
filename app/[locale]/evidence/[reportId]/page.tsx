@@ -1,3 +1,7 @@
+/**
+ * Evidence Vault Page component.
+ * Allows users to upload and manage evidence files for a specific report.
+ */
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -6,6 +10,9 @@ import { EvidenceList } from "@/components/evidence/evidence-list"
 import { Shield, Lock } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
+/**
+ * Evidence Vault Page component.
+ */
 export default async function EvidenceVaultPage(props: { params: Promise<{ reportId: string }> }) {
   const params = await props.params
   return (

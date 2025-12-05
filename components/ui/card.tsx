@@ -1,7 +1,13 @@
+/**
+ * Card component for displaying content in a box.
+ */
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 
+/**
+ * Card container.
+ */
 function Card({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div

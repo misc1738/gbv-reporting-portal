@@ -1,3 +1,7 @@
+/**
+ * Confirmation Content component.
+ * Displays success message and tracking ID after report submission.
+ */
 "use client"
 
 import { useSearchParams } from "next/navigation"
@@ -8,6 +12,9 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { CheckCircle2, Copy, Phone, MapPin, BookOpen, Shield } from "lucide-react"
 import { useState } from "react"
 
+/**
+ * Confirmation Content component.
+ */
 export function ConfirmationContent() {
   const searchParams = useSearchParams()
   const trackingId = searchParams.get("id") || "GBV-UNKNOWN"

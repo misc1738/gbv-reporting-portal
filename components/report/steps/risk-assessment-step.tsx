@@ -1,3 +1,7 @@
+/**
+ * Risk Assessment Step component.
+ * Evaluates the user's safety based on a series of questions.
+ */
 "use client"
 
 import { Label } from "@/components/ui/label"
@@ -59,6 +63,9 @@ const RISK_QUESTIONS = [
   },
 ]
 
+/**
+ * Risk Assessment Step component.
+ */
 export function RiskAssessmentStep({ data, updateData, onNext, onBack }: RiskAssessmentStepProps) {
   const criticalRisks = RISK_QUESTIONS.filter((q) => q.critical && data[q.key]).length
   const totalRisks = RISK_QUESTIONS.filter((q) => data[q.key]).length

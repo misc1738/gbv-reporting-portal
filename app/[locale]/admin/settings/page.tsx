@@ -1,9 +1,16 @@
+/**
+ * Admin Settings Page component.
+ * Allows administrators to configure application settings (placeholder).
+ */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
 
+/**
+ * Admin Settings Page component.
+ */
 export default async function AdminSettingsPage() {
   const supabase = await getSupabaseServerClient()
 

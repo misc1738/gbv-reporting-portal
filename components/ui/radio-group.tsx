@@ -1,3 +1,6 @@
+/**
+ * Radio Group component built on top of Radix UI Radio Group.
+ */
 'use client'
 
 import * as React from 'react'
@@ -6,6 +9,9 @@ import { CircleIcon } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
+/**
+ * Radio Group container.
+ */
 function RadioGroup({
   className,
   ...props

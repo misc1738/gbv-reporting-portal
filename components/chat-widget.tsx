@@ -1,3 +1,7 @@
+/**
+ * Chat Widget component for live support.
+ * Simulates a chat interface with automated responses.
+ */
 "use client"
 
 import { useState } from "react"
@@ -6,6 +10,9 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Input } from "@/components/ui/input"
 import { MessageCircle, X, Send } from "lucide-react"
 
+/**
+ * Chat Widget component.
+ */
 export function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false)
     const [messages, setMessages] = useState([

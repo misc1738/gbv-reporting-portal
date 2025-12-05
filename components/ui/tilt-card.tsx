@@ -1,5 +1,9 @@
 "use client"
 
+/**
+ * Tilt Card component that rotates on mouse hover.
+ * Uses Framer Motion for animations.
+ */
 import React from "react"
 import { motion, useMotionValue, useSpring, useTransform, type HTMLMotionProps } from "framer-motion"
 import { cn } from "@/lib/utils"
@@ -9,6 +13,9 @@ interface TiltCardProps extends HTMLMotionProps<"div"> {
     className?: string
 }
 
+/**
+ * Tilt Card component.
+ */
 export function TiltCard({ children, className, ...props }: TiltCardProps) {
     const x = useMotionValue(0)
     const y = useMotionValue(0)

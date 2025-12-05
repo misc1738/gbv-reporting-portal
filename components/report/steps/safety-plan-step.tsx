@@ -1,3 +1,7 @@
+/**
+ * Safety Plan Step component.
+ * Helps users create a safety plan with emergency contacts and safe locations.
+ */
 "use client"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -18,6 +22,9 @@ interface SafetyPlanStepProps {
   onBack: () => void
 }
 
+/**
+ * Safety Plan Step component.
+ */
 export function SafetyPlanStep({ data, updateData, onNext, onBack }: SafetyPlanStepProps) {
   const [newContact, setNewContact] = useState({ name: "", phone: "", relationship: "" })
   const [newLocation, setNewLocation] = useState({ name: "", address: "", notes: "" })

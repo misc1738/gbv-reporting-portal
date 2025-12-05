@@ -1,8 +1,15 @@
+/**
+ * Privacy Page component.
+ * Displays the privacy policy of the application.
+ */
 "use client"
 
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 
+/**
+ * Privacy Page component.
+ */
 export default function PrivacyPage() {
     return (
         <div className="flex min-h-screen flex-col">

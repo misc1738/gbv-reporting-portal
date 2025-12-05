@@ -1,3 +1,7 @@
+/**
+ * Header component.
+ * Contains navigation, theme toggle, and language switcher.
+ */
 "use client"
 
 import { useState, useEffect } from "react"
@@ -10,6 +14,9 @@ import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { useTranslations } from "next-intl"
 
+/**
+ * Header component.
+ */
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)

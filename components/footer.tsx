@@ -1,6 +1,13 @@
+/**
+ * Footer component.
+ * Displays links, contact info, and copyright.
+ */
 import Link from "next/link"
 import { Shield, Phone } from "lucide-react"
 
+/**
+ * Footer component.
+ */
 export function Footer() {
   return (
     <footer className="relative border-t border-border/40 overflow-hidden">

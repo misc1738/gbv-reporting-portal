@@ -1,3 +1,7 @@
+/**
+ * Language Switcher component.
+ * Allows users to switch between supported languages (English, Swahili).
+ */
 "use client"
 
 import { useLocale } from "next-intl"
@@ -11,6 +15,9 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+/**
+ * Language Switcher component.
+ */
 export function LanguageSwitcher() {
     const locale = useLocale()
     const router = useRouter()

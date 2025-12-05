@@ -1,3 +1,6 @@
+/**
+ * Alert component for displaying important messages.
+ */
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -19,6 +22,9 @@ const alertVariants = cva(
   }
 )
 
+/**
+ * Alert component.
+ */
 function Alert({
   className,
   variant,

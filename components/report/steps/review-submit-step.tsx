@@ -1,3 +1,7 @@
+/**
+ * Review Submit Step component.
+ * Allows users to review their report details before submission.
+ */
 "use client"
 
 import { useState } from "react"
@@ -13,6 +17,9 @@ interface ReviewSubmitStepProps {
   onBack: () => void
 }
 
+/**
+ * Review Submit Step component.
+ */
 export function ReviewSubmitStep({ data, onBack }: ReviewSubmitStepProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()

@@ -15,6 +15,10 @@ interface ErrorBoundaryState {
     error: Error | null
 }
 
+/**
+ * Error Boundary component to catch JavaScript errors in child components.
+ * Displays a fallback UI instead of crashing the app.
+ */
 export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps) {
         super(props)
@@ -78,7 +82,11 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     }
 }
 
-// Functional error fallback component for specific sections
+/**
+ * Functional error fallback component for specific sections.
+ * 
+ * @param props - Props containing the error and a reset function.
+ */
 export function ErrorFallback({
     error,
     resetError

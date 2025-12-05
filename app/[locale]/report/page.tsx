@@ -1,9 +1,16 @@
+/**
+ * Report Page component.
+ * Main page for submitting an incident report.
+ */
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { ReportForm } from "@/components/report/report-form"
 import { AlertCircle } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
+/**
+ * Report Page component.
+ */
 export default function ReportPage() {
   return (
     <div className="flex min-h-screen flex-col">

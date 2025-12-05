@@ -1,6 +1,8 @@
 "use client"
 
-// Inspired by shadcn/ui toast component
+/**
+ * Hook for managing toasts.
+ */
 import * as React from "react"
 
 import type {
@@ -171,6 +173,9 @@ function toast({ ...props }: Toast) {
     }
 }
 
+/**
+ * useToast hook.
+ */
 function useToast() {
     const [state, setState] = React.useState<State>(memoryState)
 

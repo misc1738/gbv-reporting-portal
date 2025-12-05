@@ -1,3 +1,7 @@
+/**
+ * Evidence Upload Step component.
+ * Allows users to upload and manage evidence files.
+ */
 "use client"
 
 import type React from "react"
@@ -17,6 +21,9 @@ interface EvidenceUploadStepProps {
   onBack: () => void
 }
 
+/**
+ * Evidence Upload Step component.
+ */
 export function EvidenceUploadStep({ data, updateData, onNext, onBack }: EvidenceUploadStepProps) {
   const [dragActive, setDragActive] = useState(false)
 

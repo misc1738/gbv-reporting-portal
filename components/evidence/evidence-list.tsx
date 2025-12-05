@@ -1,3 +1,8 @@
+/**
+ * Evidence List component.
+ * Displays a list of uploaded evidence files for a report.
+ * Allows downloading and previewing (for images) of encrypted files.
+ */
 "use client"
 
 import { useState, useEffect } from "react"
@@ -12,6 +17,9 @@ interface EvidenceListProps {
   reportId: string
 }
 
+/**
+ * Evidence List component.
+ */
 export function EvidenceList({ reportId }: EvidenceListProps) {
   const [files, setFiles] = useState<EvidenceFile[]>([])
   const [loading, setLoading] = useState(true)

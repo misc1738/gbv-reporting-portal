@@ -1,3 +1,7 @@
+/**
+ * Contact Page component.
+ * Displays contact information, emergency hotlines, and a contact form.
+ */
 "use client"
 
 import { Header } from "@/components/header"
@@ -8,6 +12,9 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Phone, Mail, MapPin, Clock } from "lucide-react"
 
+/**
+ * Contact Page component.
+ */
 export default function ContactPage() {
     return (
         <div className="flex min-h-screen flex-col">

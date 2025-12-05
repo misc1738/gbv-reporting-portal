@@ -1,5 +1,8 @@
 "use client"
 
+/**
+ * Toaster component to display toasts.
+ */
 import {
     Toast,
     ToastClose,
@@ -10,6 +13,9 @@ import {
 } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
 
+/**
+ * Toaster component.
+ */
 export function Toaster() {
     const { toasts } = useToast()
 

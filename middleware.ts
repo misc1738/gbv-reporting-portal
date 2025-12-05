@@ -1,3 +1,7 @@
+/**
+ * Middleware configuration for next-intl.
+ * Handles locale detection and redirection based on the URL path.
+ */
 import createMiddleware from 'next-intl/middleware';
 
 export default createMiddleware({

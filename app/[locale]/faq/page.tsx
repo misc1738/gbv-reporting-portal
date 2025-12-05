@@ -1,9 +1,16 @@
+/**
+ * FAQ Page component.
+ * Displays frequently asked questions and answers in an accordion format.
+ */
 "use client"
 
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
+/**
+ * FAQ Page component.
+ */
 export default function FAQPage() {
     return (
         <div className="flex min-h-screen flex-col">

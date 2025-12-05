@@ -1,3 +1,7 @@
+/**
+ * Home Page component.
+ * Landing page of the application with hero section, features, and call to action.
+ */
 "use client"
 
 import Link from "next/link"
@@ -11,6 +15,9 @@ import { TiltCard } from "@/components/ui/tilt-card"
 import { motion } from "framer-motion"
 import { useTranslations } from "next-intl"
 
+/**
+ * Home Page component.
+ */
 export default function HomePage() {
   const t = useTranslations("Hero")
 

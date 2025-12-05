@@ -1,9 +1,16 @@
+/**
+ * Admin Notifications Page component.
+ * Allows administrators to send notifications (placeholder).
+ */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
 
+/**
+ * Admin Notifications Page component.
+ */
 export default async function AdminNotificationsPage() {
   const supabase = await getSupabaseServerClient()
 

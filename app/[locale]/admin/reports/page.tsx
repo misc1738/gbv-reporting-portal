@@ -1,3 +1,7 @@
+/**
+ * Admin Reports Page component.
+ * Displays a list of recent reports and allows exporting them.
+ */
 "use server"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -7,6 +11,9 @@ import { Footer } from '@/components/footer'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
 
+/**
+ * Admin Reports Page component.
+ */
 export default async function AdminReportsPage() {
   const supabase = await getSupabaseServerClient()
 

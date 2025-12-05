@@ -1,3 +1,7 @@
+/**
+ * Notification component.
+ * Displays a single notification toast.
+ */
 "use client"
 
 import { CheckCircle2, Info, AlertTriangle, XCircle } from "lucide-react"
@@ -35,6 +39,9 @@ const notificationStyles = {
     },
 }
 
+/**
+ * Notification component.
+ */
 export function Notification({ type, title, message, onClose }: NotificationProps) {
     const style = notificationStyles[type]
     const Icon = style.Icon
@@ -65,6 +72,10 @@ export function Notification({ type, title, message, onClose }: NotificationProp
     )
 }
 
+/**
+ * Notification Center component.
+ * Displays a list of notifications.
+ */
 export function NotificationCenter({ notifications }: { notifications: NotificationProps[] }) {
     return (
         <div className="fixed top-20 right-4 z-50 space-y-3 max-w-sm w-full">

@@ -1,5 +1,9 @@
 "use client"
 
+/**
+ * Dialog component built on top of Radix UI Dialog.
+ * Used for modals and popups.
+ */
 import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { X } from "lucide-react"

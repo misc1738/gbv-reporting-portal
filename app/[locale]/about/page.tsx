@@ -1,9 +1,16 @@
+/**
+ * About Page component.
+ * Displays information about the organization, mission, vision, and values.
+ */
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Shield, Users, Heart, Target } from "lucide-react"
 
+/**
+ * About Page component.
+ */
 export default function AboutPage() {
     return (
         <div className="flex min-h-screen flex-col">

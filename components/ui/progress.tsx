@@ -1,3 +1,6 @@
+/**
+ * Progress bar component built on top of Radix UI Progress.
+ */
 "use client"
 
 import * as React from "react"
@@ -5,6 +8,9 @@ import * as ProgressPrimitive from "@radix-ui/react-progress"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Progress component.
+ */
 function Progress({
   className,
   value,

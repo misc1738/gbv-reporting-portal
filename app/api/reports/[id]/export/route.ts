@@ -10,6 +10,13 @@ function escapeCsv(value: any) {
   return s
 }
 
+/**
+ * Exports a single report as a CSV file.
+ * 
+ * @param request - The incoming request.
+ * @param props - Route parameters containing the report ID.
+ * @returns A CSV file download response.
+ */
 export async function GET(
   request: Request,
   props: { params: Promise<{ id: string }> }

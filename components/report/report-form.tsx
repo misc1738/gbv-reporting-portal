@@ -1,3 +1,7 @@
+/**
+ * Report Form component.
+ * Multi-step form for reporting GBV incidents.
+ */
 "use client"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -11,6 +15,9 @@ import { SafetyPlanStep } from "./steps/safety-plan-step"
 import { ReviewSubmitStep } from "./steps/review-submit-step"
 import type { ViolenceType } from "@/lib/types"
 
+/**
+ * Interface for report form data.
+ */
 export interface ReportFormData {
   // Incident details
   violenceType: ViolenceType | ""
@@ -46,6 +53,9 @@ const STEPS = [
   { id: 5, name: "Review", description: "Review and submit" },
 ]
 
+/**
+ * Report Form component.
+ */
 export function ReportForm() {
   const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState<ReportFormData>({

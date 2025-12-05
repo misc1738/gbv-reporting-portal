@@ -1,5 +1,8 @@
 "use client"
 
+/**
+ * Calendar component built on top of react-day-picker.
+ */
 import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { DayPicker } from "react-day-picker"
@@ -10,6 +13,9 @@ import { buttonVariants } from "@/components/ui/button"
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
+/**
+ * Calendar component.
+ */
 function Calendar({
     className,
     classNames,

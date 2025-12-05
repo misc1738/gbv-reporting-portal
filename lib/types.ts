@@ -1,3 +1,6 @@
+/**
+ * Type definitions for the application.
+ */
 export type UserRole = "adolescent" | "counselor" | "ngo" | "police" | "admin"
 
 export type ReportStatus = "submitted" | "under_review" | "assigned" | "in_progress" | "resolved" | "closed"
@@ -6,6 +9,9 @@ export type ViolenceType = "physical" | "sexual" | "emotional" | "economic" | "o
 
 export type RiskLevel = "low" | "medium" | "high" | "critical"
 
+/**
+ * Represents a user in the system.
+ */
 export interface User {
   id: string
   email?: string
@@ -22,6 +28,9 @@ export interface User {
   is_active: boolean
 }
 
+/**
+ * Represents a GBV report.
+ */
 export interface Report {
   id: string
   user_id?: string
@@ -42,6 +51,9 @@ export interface Report {
   updated_at: string
 }
 
+/**
+ * Data structure for the report submission form.
+ */
 export interface ReportFormData {
   // Incident Details
   violenceType: ViolenceType
@@ -73,6 +85,9 @@ export interface ReportFormData {
   evidenceFiles?: EvidenceFile[]
 }
 
+/**
+ * Represents an evidence file associated with a report.
+ */
 export interface EvidenceFile {
   id: string
   report_id: string
@@ -85,6 +100,9 @@ export interface EvidenceFile {
   uploaded_by?: string
 }
 
+/**
+ * Represents a risk assessment for a report.
+ */
 export interface RiskAssessment {
   id: string
   report_id: string
@@ -101,6 +119,9 @@ export interface RiskAssessment {
   created_at: string
 }
 
+/**
+ * Represents a safety plan for a user.
+ */
 export interface SafetyPlan {
   id: string
   report_id: string
@@ -127,6 +148,9 @@ export interface SafetyPlan {
   updated_at: string
 }
 
+/**
+ * Represents a service provider (e.g., hospital, shelter, legal aid).
+ */
 export interface ServiceProvider {
   id: string
   name: string
@@ -150,6 +174,9 @@ export interface ServiceProvider {
   updated_at: string
 }
 
+/**
+ * Represents a referral to a service provider.
+ */
 export interface Referral {
   id: string
   report_id: string
@@ -161,6 +188,9 @@ export interface Referral {
   updated_at: string
 }
 
+/**
+ * Represents an update on a case/report.
+ */
 export interface CaseUpdate {
   id: string
   report_id: string
@@ -171,6 +201,9 @@ export interface CaseUpdate {
   created_at: string
 }
 
+/**
+ * Represents a notification for a user.
+ */
 export interface Notification {
   id: string
   user_id: string
@@ -182,12 +215,18 @@ export interface Notification {
   created_at: string
 }
 
+/**
+ * Standard API response structure.
+ */
 export interface ApiResponse<T = unknown> {
   success: boolean
   data?: T
   error?: string
 }
 
+/**
+ * Standard paginated response structure.
+ */
 export interface PaginatedResponse<T = unknown> {
   data: T[]
   total: number
@@ -195,6 +234,9 @@ export interface PaginatedResponse<T = unknown> {
   limit: number
 }
 
+/**
+ * Represents a learning module.
+ */
 export interface LearningModule {
   id: string
   title: string
@@ -210,6 +252,9 @@ export interface LearningModule {
   updated_at: string
 }
 
+/**
+ * Tracks user progress in a learning module.
+ */
 export interface UserProgress {
   id: string
   user_id: string
@@ -221,6 +266,9 @@ export interface UserProgress {
   created_at: string
 }
 
+/**
+ * Represents a gamification badge.
+ */
 export interface Badge {
   id: string
   name: string
@@ -231,6 +279,9 @@ export interface Badge {
   created_at: string
 }
 
+/**
+ * Represents a badge earned by a user.
+ */
 export interface UserBadge {
   id: string
   user_id: string

@@ -10,6 +10,12 @@ interface SEOProps {
     noindex?: boolean
 }
 
+/**
+ * Generates SEO metadata for pages.
+ * 
+ * @param props - SEO properties including title, description, keywords, etc.
+ * @returns Next.js Metadata object
+ */
 export function generateMetadata({
     title = "SafeSpace Nairobi - GBV Support Portal",
     description = "Anonymous reporting and support for gender-based violence survivors in Nairobi County. Access counseling, legal aid, medical care, and safe shelters. You are not alone.",
@@ -73,7 +79,10 @@ export function generateMetadata({
     }
 }
 
-// Structured data for organization
+/**
+ * Structured data for the organization (SafeSpace Nairobi).
+ * Used for SEO to help search engines understand the organization.
+ */
 export const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "GovernmentOrganization",
@@ -93,7 +102,10 @@ export const organizationSchema = {
     ],
 }
 
-// Structured data for emergency service
+/**
+ * Structured data for the emergency service.
+ * Used for SEO to highlight the emergency helpline.
+ */
 export const emergencyServiceSchema = {
     "@context": "https://schema.org",
     "@type": "EmergencyService",

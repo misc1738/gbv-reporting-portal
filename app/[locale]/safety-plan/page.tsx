@@ -1,3 +1,7 @@
+/**
+ * Safety Plan Page component.
+ * Guides users through creating a personalized safety plan based on risk assessment.
+ */
 "use client"
 
 import { useState, useRef } from "react"
@@ -13,6 +17,9 @@ import { Shield, Printer, ArrowRight, ArrowLeft, Lock, Baby, Home, AlertTriangle
 import { RiskAssessment, RiskProfile } from "@/components/safety-plan/risk-assessment"
 
 
+/**
+ * Safety Plan Page component.
+ */
 export default function SafetyPlanPage() {
     const [step, setStep] = useState(0) // 0 = Risk Assessment
     const [riskProfile, setRiskProfile] = useState<RiskProfile | null>(null)

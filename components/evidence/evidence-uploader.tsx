@@ -1,3 +1,7 @@
+/**
+ * Evidence Uploader component.
+ * Handles client-side encryption and uploading of evidence files.
+ */
 "use client"
 
 import { useEffect, useState } from "react"
@@ -25,6 +29,9 @@ type FileState = {
 
 const DEFAULT_MAX_BYTES = 10 * 1024 * 1024 // 10MB
 
+/**
+ * Evidence Uploader component.
+ */
 export function EvidenceUploader({ reportId, onUploadComplete }: EvidenceUploaderProps) {
   const [files, setFiles] = useState<FileState[]>([])
   const [globalErrors, setGlobalErrors] = useState<string[]>([])

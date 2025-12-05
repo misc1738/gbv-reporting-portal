@@ -1,9 +1,16 @@
+/**
+ * Admin Users Page component.
+ * Displays a list of registered users for administrators.
+ */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
 
+/**
+ * Admin Users Page component.
+ */
 export default async function AdminUsersPage() {
   const supabase = await getSupabaseServerClient()
 

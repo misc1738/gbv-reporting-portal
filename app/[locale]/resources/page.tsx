@@ -1,3 +1,7 @@
+/**
+ * Resources Page component.
+ * Displays a directory of support resources with search, filter, and map view.
+ */
 "use client"
 
 import { useState } from "react"
@@ -16,6 +20,9 @@ const ResourceMap = dynamic(() => import("@/components/resources/resource-map"),
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 
+/**
+ * Resources Page component.
+ */
 export default function ResourcesPage() {
     const resources = [
         {

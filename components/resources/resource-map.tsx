@@ -1,3 +1,8 @@
+/**
+ * Resource Map component.
+ * Displays a map with markers for various resources.
+ * Uses React Leaflet.
+ */
 "use client"
 
 import { useEffect, useState } from "react"
@@ -34,6 +39,9 @@ interface ResourceMapProps {
     resources: Resource[]
 }
 
+/**
+ * Resource Map component.
+ */
 export default function ResourceMap({ resources }: ResourceMapProps) {
     const [isMounted, setIsMounted] = useState(false)
 

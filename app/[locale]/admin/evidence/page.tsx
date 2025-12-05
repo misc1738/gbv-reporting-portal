@@ -1,9 +1,16 @@
+/**
+ * Admin Evidence Page component.
+ * Displays a list of uploaded evidence files for administrators.
+ */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
 
+/**
+ * Admin Evidence Page component.
+ */
 export default async function AdminEvidencePage() {
   const supabase = await getSupabaseServerClient()
 

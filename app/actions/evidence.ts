@@ -5,6 +5,12 @@
 import { getSupabaseServerClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 
+/**
+ * Uploads an encrypted evidence file to Supabase Storage and saves metadata to the database.
+ * 
+ * @param formData - The form data containing the file and metadata.
+ * @returns An object indicating success or failure.
+ */
 export async function uploadEvidence(formData: FormData) {
   const supabase = await getSupabaseServerClient()
 
@@ -62,6 +68,12 @@ export async function uploadEvidence(formData: FormData) {
   }
 }
 
+/**
+ * Fetches evidence files for a specific report.
+ * 
+ * @param reportId - The ID of the report.
+ * @returns An object containing the list of evidence files or an error.
+ */
 export async function getEvidenceFiles(reportId: string) {
   const supabase = await getSupabaseServerClient()
 
@@ -79,6 +91,12 @@ export async function getEvidenceFiles(reportId: string) {
   return { success: true, data }
 }
 
+/**
+ * Deletes an evidence file from storage and the database.
+ * 
+ * @param evidenceId - The ID of the evidence file.
+ * @returns An object indicating success or failure.
+ */
 export async function deleteEvidence(evidenceId: string) {
   const supabase = await getSupabaseServerClient()
 
@@ -112,6 +130,12 @@ export async function deleteEvidence(evidenceId: string) {
   return { success: true }
 }
 
+/**
+ * Generates a signed URL for downloading an evidence file.
+ * 
+ * @param evidenceId - The ID of the evidence file.
+ * @returns An object containing the download URL and encryption details.
+ */
 export async function downloadEvidence(evidenceId: string) {
   const supabase = await getSupabaseServerClient()
 

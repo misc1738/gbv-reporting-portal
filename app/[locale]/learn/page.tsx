@@ -1,3 +1,7 @@
+/**
+ * Learn Page component.
+ * Educational hub with modules on rights, safety planning, and recovery.
+ */
 "use client"
 
 import { useState } from "react"
@@ -11,6 +15,9 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { modulesData } from "./data"
 
+/**
+ * Learn Page component.
+ */
 export default function LearnPage() {
     const [progress] = useState(65)
     const modules = modulesData

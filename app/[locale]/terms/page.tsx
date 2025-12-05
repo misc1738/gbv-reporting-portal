@@ -1,8 +1,15 @@
+/**
+ * Terms Page component.
+ * Displays the terms of service of the application.
+ */
 "use client"
 
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 
+/**
+ * Terms Page component.
+ */
 export default function TermsPage() {
     return (
         <div className="flex min-h-screen flex-col">

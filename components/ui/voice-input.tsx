@@ -1,5 +1,9 @@
 "use client"
 
+/**
+ * Voice input component using Web Speech API.
+ * Allows users to input text via speech.
+ */
 import * as React from "react"
 import { Mic, MicOff } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -10,6 +14,9 @@ interface VoiceInputProps extends React.ComponentProps<typeof Textarea> {
     // Removed unused onTranscript
 }
 
+/**
+ * Voice Input component.
+ */
 export function VoiceInput({ className, value, onChange, ...props }: VoiceInputProps) {
     const [isListening, setIsListening] = React.useState(false)
     const [isSupported, setIsSupported] = React.useState(false)

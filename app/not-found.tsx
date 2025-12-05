@@ -1,7 +1,14 @@
+/**
+ * Not Found Page component.
+ * Displays a 404 error message when a page is not found.
+ */
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { FileQuestion } from "lucide-react"
 
+/**
+ * Not Found Page component.
+ */
 export default function NotFound() {
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-background text-foreground">

@@ -15,6 +15,10 @@ interface ProgressIndicatorProps {
     className?: string
 }
 
+/**
+ * Visual progress indicator for multi-step forms.
+ * Displays steps with labels and completion status.
+ */
 export function ProgressIndicator({ steps, currentStep, className }: ProgressIndicatorProps) {
     return (
         <div className={cn("w-full", className)}>
@@ -82,7 +86,9 @@ export function ProgressIndicator({ steps, currentStep, className }: ProgressInd
     )
 }
 
-// Compact version for mobile
+/**
+ * Compact version of the progress indicator for mobile devices.
+ */
 export function CompactProgressIndicator({ steps, currentStep }: ProgressIndicatorProps) {
     return (
         <div className="space-y-2">

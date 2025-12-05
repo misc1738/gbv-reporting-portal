@@ -1,5 +1,9 @@
 "use client"
 
+/**
+ * Accordion component built on top of Radix UI Accordion.
+ * Used for collapsible content sections.
+ */
 import * as React from "react"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { ChevronDown } from "lucide-react"

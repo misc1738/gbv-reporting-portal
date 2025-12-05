@@ -1,9 +1,17 @@
+/**
+ * Quick Exit component.
+ * Provides a button to quickly leave the site for safety reasons.
+ * Also listens for the Escape key.
+ */
 "use client"
 
 import { Button } from "@/components/ui/button"
 import { LogOut } from "lucide-react"
 import { useEffect, useState } from "react"
 
+/**
+ * Quick Exit component.
+ */
 export function QuickExit() {
     const [isVisible, setIsVisible] = useState(false)
 

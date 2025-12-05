@@ -1,9 +1,15 @@
 "use client"
 
+/**
+ * Skeleton component for loading states.
+ */
 import { cn } from "@/lib/utils"
 
 interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> { }
 
+/**
+ * Skeleton component.
+ */
 export function Skeleton({ className, ...props }: SkeletonProps) {
     return (
         <div

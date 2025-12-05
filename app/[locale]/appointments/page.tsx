@@ -1,3 +1,7 @@
+/**
+ * Appointments Page component.
+ * Allows users to book appointments with support professionals.
+ */
 "use client"
 
 import { useState } from "react"
@@ -12,6 +16,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CheckCircle, Calendar as CalendarIcon, Clock, User } from "lucide-react"
 import { format } from "date-fns"
 
+/**
+ * Appointments Page component.
+ */
 export default function AppointmentsPage() {
     const [step, setStep] = useState(1)
     const [date, setDate] = useState<Date | undefined>(undefined)

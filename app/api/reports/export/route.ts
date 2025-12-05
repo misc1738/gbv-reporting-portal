@@ -10,6 +10,11 @@ function escapeCsv(value: any) {
   return s
 }
 
+/**
+ * Exports all reports as a CSV file (Admin only).
+ * 
+ * @returns A CSV file download response.
+ */
 export async function GET() {
   const supabase = await getSupabaseServerClient()
 

@@ -1,3 +1,7 @@
+/**
+ * Incident Details Step component.
+ * Collects information about the incident, including type, date, location, and description.
+ */
 "use client"
 
 import { Label } from "@/components/ui/label"
@@ -35,6 +39,9 @@ const VIOLENCE_TYPES: Array<{ value: ViolenceType; label: string; description: s
   { value: "other", label: "Other", description: "Other forms of gender-based violence" },
 ]
 
+/**
+ * Incident Details Step component.
+ */
 export function IncidentDetailsStep({ data, updateData, onNext }: IncidentDetailsStepProps) {
   const canProceed = data.violenceType && data.description.length >= 20
 

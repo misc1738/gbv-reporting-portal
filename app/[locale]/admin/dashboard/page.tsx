@@ -1,9 +1,16 @@
+/**
+ * Admin Dashboard Page component.
+ * Displays an overview of reports, evidence, and users for administrators.
+ */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
 
+/**
+ * Admin Dashboard Page component.
+ */
 export default async function AdminDashboardPage() {
   const supabase = await getSupabaseServerClient()
 

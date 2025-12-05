@@ -1,3 +1,7 @@
+/**
+ * Root Layout component for localized pages.
+ * Wraps the application with providers and global styles.
+ */
 import type React from "react"
 import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
@@ -20,6 +24,9 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
+/**
+ * Root Layout component.
+ */
 export default async function RootLayout({
   children,
   params

@@ -1,3 +1,7 @@
+/**
+ * Risk Assessment component.
+ * Interactive questionnaire to assess user safety risks.
+ */
 "use client"
 
 import { useState } from "react"
@@ -19,6 +23,9 @@ interface RiskAssessmentProps {
     onComplete: (profile: RiskProfile) => void
 }
 
+/**
+ * Risk Assessment component.
+ */
 export function RiskAssessment({ onComplete }: RiskAssessmentProps) {
     const [answers, setAnswers] = useState<Partial<RiskProfile>>({})
 

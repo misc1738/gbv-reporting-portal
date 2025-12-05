@@ -1,10 +1,16 @@
 "use client"
 
+/**
+ * Tabs component built on top of Radix UI Tabs.
+ */
 import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Tabs container.
+ */
 function Tabs({
   className,
   ...props
