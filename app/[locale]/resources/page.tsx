@@ -19,6 +19,18 @@ import { Footer } from "@/components/footer"
 export default function ResourcesPage() {
     const resources = [
         {
+            id: 0,
+            name: "National GBV Helpline",
+            type: "Emergency Helpline",
+            address: "Nationwide (Toll Free)",
+            phone: "+254 711 226 8924",
+            website: "https://gender.go.ke",
+            description: "The official National Gender-Based Violence Helpline. Available 24/7 for emergency assistance, counseling, and referrals. Toll-free.",
+            tags: ["24/7", "Helpline", "Emergency", "Free"],
+            lat: -1.2921, // Centered in Nairobi for visibility
+            lng: 36.8219
+        },
+        {
             id: 1,
             name: "Nairobi Women's Hospital - GVRC",
             type: "Medical & Counseling",

@@ -98,7 +98,7 @@ export const emergencyServiceSchema = {
     "@context": "https://schema.org",
     "@type": "EmergencyService",
     name: "GBV Emergency Helpline",
-    telephone: "+254-1195",
+    telephone: "+2547112268924",
     areaServed: {
         "@type": "City",
         name: "Nairobi",
