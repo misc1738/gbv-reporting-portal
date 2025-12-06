@@ -68,7 +68,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
                                     <RefreshCw className="mr-2 h-4 w-4" />
                                     Try Again
                                 </Button>
-                                <Button variant="outline" onClick={() => window.location.href = "/"} className="flex-1 glass">
+                                <Button variant="outline" onClick={() => window.location.href = "/en"} className="flex-1 glass">
                                     Go Home
                                 </Button>
                             </div>

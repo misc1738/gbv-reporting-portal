@@ -5,6 +5,7 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
@@ -15,11 +16,13 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { CheckCircle, Calendar as CalendarIcon, Clock, User } from "lucide-react"
 import { format } from "date-fns"
+import { useLocale } from "next-intl"
 
 /**
  * Appointments Page component.
  */
 export default function AppointmentsPage() {
+    const locale = useLocale()
     const [step, setStep] = useState(1)
     const [date, setDate] = useState<Date | undefined>(undefined)
     const [formData, setFormData] = useState({
@@ -253,8 +256,8 @@ export default function AppointmentsPage() {
                                 </>
                             )}
                             {step === 4 && (
-                                <Button className="w-full" onClick={() => window.location.href = "/"}>
-                                    Return Home
+                                <Button className="w-full" asChild>
+                                    <Link href={`/${locale}`}>Return Home</Link>
                                 </Button>
                             )}
                         </CardFooter>
