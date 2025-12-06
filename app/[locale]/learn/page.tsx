@@ -14,11 +14,13 @@ import Link from "next/link"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { modulesData } from "./data"
+import { useLocale } from "next-intl"
 
 /**
  * Learn Page component.
  */
 export default function LearnPage() {
+    const locale = useLocale()
     const [progress] = useState(65)
     const modules = modulesData
 
@@ -97,7 +99,7 @@ export default function LearnPage() {
                                             </CardContent>
                                             <CardFooter className="border-t bg-muted/20 pt-4">
                                                 <Button className="w-full" asChild>
-                                                    <Link href={`/learn/${module.id}`}>Continue Learning</Link>
+                                                    <Link href={`/${locale}/learn/${module.id}`}>Continue Learning</Link>
                                                 </Button>
                                             </CardFooter>
                                         </Card>
