@@ -2,13 +2,18 @@
  * Footer component.
  * Displays links, contact info, and copyright.
  */
+"use client"
+
 import Link from "next/link"
 import { Shield, Phone } from "lucide-react"
+import { useLocale } from "next-intl"
 
 /**
  * Footer component.
  */
 export function Footer() {
+  const locale = useLocale()
+
   return (
     <footer className="relative border-t border-border/40 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-hero opacity-50 -z-10" />
@@ -28,27 +33,27 @@ export function Footer() {
             <h3 className="font-semibold mb-4 text-primary">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/report" className="text-muted-foreground hover:text-primary transition-smooth hover:translate-x-1 inline-block">
+                <Link href={`/${locale}/report`} className="text-muted-foreground hover:text-primary transition-smooth hover:translate-x-1 inline-block">
                   Report Incident
                 </Link>
               </li>
               <li>
-                <Link href="/learn" className="text-muted-foreground hover:text-primary transition-smooth hover:translate-x-1 inline-block">
+                <Link href={`/${locale}/learn`} className="text-muted-foreground hover:text-primary transition-smooth hover:translate-x-1 inline-block">
                   Learning Modules
                 </Link>
               </li>
               <li>
-                <Link href="/resources" className="text-muted-foreground hover:text-primary transition-smooth hover:translate-x-1 inline-block">
+                <Link href={`/${locale}/resources`} className="text-muted-foreground hover:text-primary transition-smooth hover:translate-x-1 inline-block">
                   Find Resources
                 </Link>
               </li>
               <li>
-                <Link href="/safety-plan" className="text-muted-foreground hover:text-primary transition-smooth hover:translate-x-1 inline-block">
+                <Link href={`/${locale}/safety-plan`} className="text-muted-foreground hover:text-primary transition-smooth hover:translate-x-1 inline-block">
                   Safety Planning
                 </Link>
               </li>
               <li>
-                <Link href="/appointments" className="text-muted-foreground hover:text-primary transition-smooth hover:translate-x-1 inline-block">
+                <Link href={`/${locale}/appointments`} className="text-muted-foreground hover:text-primary transition-smooth hover:translate-x-1 inline-block">
                   Book Appointment
                 </Link>
               </li>
@@ -59,22 +64,22 @@ export function Footer() {
             <h3 className="font-semibold mb-4 text-accent">Support</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/faq" className="text-muted-foreground hover:text-accent transition-smooth hover:translate-x-1 inline-block">
+                <Link href={`/${locale}/faq`} className="text-muted-foreground hover:text-accent transition-smooth hover:translate-x-1 inline-block">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-muted-foreground hover:text-accent transition-smooth hover:translate-x-1 inline-block">
+                <Link href={`/${locale}/privacy`} className="text-muted-foreground hover:text-accent transition-smooth hover:translate-x-1 inline-block">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-muted-foreground hover:text-accent transition-smooth hover:translate-x-1 inline-block">
+                <Link href={`/${locale}/terms`} className="text-muted-foreground hover:text-accent transition-smooth hover:translate-x-1 inline-block">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-muted-foreground hover:text-accent transition-smooth hover:translate-x-1 inline-block">
+                <Link href={`/${locale}/contact`} className="text-muted-foreground hover:text-accent transition-smooth hover:translate-x-1 inline-block">
                   Contact Us
                 </Link>
               </li>

@@ -12,12 +12,14 @@ import Link from "next/link"
 import { modulesData, Lesson } from "../data"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
+import { useLocale } from "next-intl"
 
 export default function ModulePage() {
     const params = useParams()
     const moduleId = params.moduleId as string
     const module = modulesData.find(m => m.id === moduleId)
     const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null)
+    const locale = useLocale()
 
     if (!module) {
         return (
@@ -30,7 +32,7 @@ export default function ModulePage() {
                     <h1 className="text-3xl font-bold mb-2">Module Not Found</h1>
                     <p className="text-muted-foreground mb-8">The learning module you are looking for does not exist.</p>
                     <Button asChild size="lg">
-                        <Link href="/learn">Back to Learning Hub</Link>
+                        <Link href={`/${locale}/learn`}>Back to Learning Hub</Link>
                     </Button>
                 </main>
                 <Footer />
@@ -50,7 +52,7 @@ export default function ModulePage() {
 
                 <div className="container max-w-4xl relative z-10">
                     <Button variant="ghost" asChild className="mb-8 hover:bg-background/50">
-                        <Link href="/learn">
+                        <Link href={`/${locale}/learn`}>
                             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Modules
                         </Link>
                     </Button>

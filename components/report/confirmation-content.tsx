@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { CheckCircle2, Copy, Phone, MapPin, BookOpen, Shield } from "lucide-react"
 import { useState } from "react"
+import { useLocale } from "next-intl"
 
 /**
  * Confirmation Content component.
@@ -19,6 +20,7 @@ export function ConfirmationContent() {
   const searchParams = useSearchParams()
   const trackingId = searchParams.get("id") || "GBV-UNKNOWN"
   const [copied, setCopied] = useState(false)
+  const locale = useLocale()
 
   const copyTrackingId = () => {
     navigator.clipboard.writeText(trackingId)
@@ -139,7 +141,7 @@ export function ConfirmationContent() {
           </CardHeader>
           <CardContent>
             <Button variant="outline" className="w-full bg-transparent" asChild>
-              <Link href="/resources">
+              <Link href={`/${locale}/resources`}>
                 <MapPin className="mr-2 h-4 w-4" />
                 Browse Resources
               </Link>
@@ -158,7 +160,7 @@ export function ConfirmationContent() {
         </CardHeader>
         <CardContent>
           <Button variant="outline" className="w-full bg-transparent" asChild>
-            <Link href="/learn">
+            <Link href={`/${locale}/learn`}>
               <BookOpen className="mr-2 h-4 w-4" />
               Explore Learning Modules
             </Link>
@@ -168,7 +170,7 @@ export function ConfirmationContent() {
 
       <div className="flex justify-center">
         <Button asChild size="lg">
-          <Link href="/">Return to Home</Link>
+          <Link href={`/${locale}`}>Return to Home</Link>
         </Button>
       </div>
     </div>

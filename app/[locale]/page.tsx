@@ -13,13 +13,14 @@ import { Footer } from "@/components/footer"
 import { QuickExit } from "@/components/quick-exit"
 import { TiltCard } from "@/components/ui/tilt-card"
 import { motion } from "framer-motion"
-import { useTranslations } from "next-intl"
+import { useTranslations, useLocale } from "next-intl"
 
 /**
  * Home Page component.
  */
 export default function HomePage() {
   const t = useTranslations("Hero")
+  const locale = useLocale()
 
 
   const container = {
@@ -88,13 +89,13 @@ export default function HomePage() {
                 className="flex flex-col sm:flex-row gap-6 justify-center pt-8"
               >
                 <Button size="lg" variant="glow" asChild className="text-lg h-14 px-8 rounded-full">
-                  <Link href="/report">
+                  <Link href={`/${locale}/report`}>
                     <AlertCircle className="mr-2 h-5 w-5" />
                     {t("reportButton")}
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild className="text-lg h-14 px-8 rounded-full glass-strong border-primary/20 hover:bg-primary/5">
-                  <Link href="/resources">
+                  <Link href={`/${locale}/resources`}>
                     <MapPin className="mr-2 h-5 w-5" />
                     {t("getHelpButton")}
                   </Link>

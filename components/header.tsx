@@ -12,7 +12,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
-import { useTranslations } from "next-intl"
+import { useTranslations, useLocale } from "next-intl"
 
 /**
  * Header component.
@@ -21,6 +21,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const t = useTranslations("Header")
+  const locale = useLocale()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,12 +32,12 @@ export function Header() {
   }, [])
 
   const navLinks = [
-    { href: "/report", label: t("reportIncident") },
-    { href: "/learn", label: t("learn") },
-    { href: "/resources", label: t("resources") },
-    { href: "/safety-plan", label: t("safetyPlan") },
-    { href: "/track-case", label: t("trackCase") },
-    { href: "/faq", label: t("faq") },
+    { href: `/${locale}/report`, label: t("reportIncident") },
+    { href: `/${locale}/learn`, label: t("learn") },
+    { href: `/${locale}/resources`, label: t("resources") },
+    { href: `/${locale}/safety-plan`, label: t("safetyPlan") },
+    { href: `/${locale}/track-case`, label: t("trackCase") },
+    { href: `/${locale}/faq`, label: t("faq") },
   ]
 
   return (
@@ -52,7 +53,7 @@ export function Header() {
             <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full animate-pulse-slow" />
             <Shield className="h-8 w-8 text-primary relative z-10" />
           </div>
-          <Link href="/" className="flex flex-col group">
+          <Link href={`/${locale}`} className="flex flex-col group">
             <span className="text-xl font-bold tracking-tight text-foreground group-hover:text-gradient-primary transition-smooth">SafeSpace</span>
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground group-hover:text-primary transition-colors">Nairobi</span>
           </Link>

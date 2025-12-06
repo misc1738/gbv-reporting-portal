@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { CheckCircle2, AlertTriangle, Shield, FileText, Users } from "lucide-react"
 import type { ReportFormData } from "@/lib/types"
+import { useLocale } from "next-intl"
 
 interface ReviewSubmitStepProps {
   data: ReportFormData
@@ -23,6 +24,7 @@ interface ReviewSubmitStepProps {
 export function ReviewSubmitStep({ data, onBack }: ReviewSubmitStepProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
+  const locale = useLocale()
 
   const handleSubmit = async () => {
     setIsSubmitting(true)
@@ -50,7 +52,7 @@ export function ReviewSubmitStep({ data, onBack }: ReviewSubmitStepProps) {
       })
 
       if (result.success && result.data) {
-        router.push(`/report/confirmation?id=${result.data.anonymousId}`)
+        router.push(`/${locale}/report/confirmation?id=${result.data.anonymousId}`)
       } else {
         alert(result.error || "Failed to submit report. Please try again.")
         setIsSubmitting(false)
