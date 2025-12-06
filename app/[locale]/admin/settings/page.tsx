@@ -1,62 +1,132 @@
-/**
- * Admin Settings Page component.
- * Allows administrators to configure application settings (placeholder).
- */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Header } from '@/components/header'
-import { Footer } from '@/components/footer'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { getSupabaseServerClient } from '@/lib/supabase/server'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Settings as SettingsIcon, Info } from 'lucide-react'
 
-/**
- * Admin Settings Page component.
- */
 export default async function AdminSettingsPage() {
-  const supabase = await getSupabaseServerClient()
-
-  // Admin check
-  try {
-    const {
-      data: { user },
-      error: userError,
-    } = await supabase.auth.getUser()
-    if (userError) throw new Error(userError.message)
-    if (!user || !user.id) return null
-
-    const { data: userRecord, error: fetchUserError } = await supabase.from('users').select('role').eq('id', user.id).single()
-    if (fetchUserError) return null
-    const role = (userRecord as any)?.role
-    if (role !== 'admin') return null
-  } catch (e) {
-    return null
-  }
-
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <h1 className="text-3xl md:text-4xl font-bold">Settings</h1>
+        <p className="text-lg text-muted-foreground">Configure platform settings</p>
+      </div>
 
-      <main className="flex-1 py-12">
-        <div className="container max-w-4xl">
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <h1 className="text-3xl md:text-4xl font-bold">Settings</h1>
-              <p className="text-lg text-muted-foreground">Application configuration</p>
+      <Alert>
+        <Info className="h-4 w-4" />
+        <AlertDescription>
+          Settings management coming soon. Configure system-wide options, data retention policies, and integrations.
+        </AlertDescription>
+      </Alert>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <SettingsIcon className="h-5 w-5" />
+              General Settings
+            </CardTitle>
+            <CardDescription>Basic platform configuration</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="flex items-center justify-between py-2 border-b">
+              <div>
+                <p className="font-medium text-sm">Anonymous Reporting</p>
+                <p className="text-xs text-muted-foreground">Allow reports without login</p>
+              </div>
+              <span className="text-sm text-muted-foreground">Enabled</span>
             </div>
+            <div className="flex items-center justify-between py-2 border-b">
+              <div>
+                <p className="font-medium text-sm">Case Tracking</p>
+                <p className="text-xs text-muted-foreground">Enable case ID tracking</p>
+              </div>
+              <span className="text-sm text-muted-foreground">Enabled</span>
+            </div>
+            <div className="flex items-center justify-between py-2">
+              <div>
+                <p className="font-medium text-sm">Evidence Upload</p>
+                <p className="text-xs text-muted-foreground">Allow file attachments</p>
+              </div>
+              <span className="text-sm text-muted-foreground">Enabled</span>
+            </div>
+          </CardContent>
+        </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>General</CardTitle>
-                <CardDescription>Toggle application-level settings</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">Placeholders for toggles like outbound email, evidence retention policy, and export settings.</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </main>
+        <Card>
+          <CardHeader>
+            <CardTitle>Security & Privacy</CardTitle>
+            <CardDescription>Data protection settings</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="flex items-center justify-between py-2 border-b">
+              <div>
+                <p className="font-medium text-sm">End-to-End Encryption</p>
+                <p className="text-xs text-muted-foreground">For evidence files</p>
+              </div>
+              <span className="text-sm text-muted-foreground">Active</span>
+            </div>
+            <div className="flex items-center justify-between py-2 border-b">
+              <div>
+                <p className="font-medium text-sm">Data Retention</p>
+                <p className="text-xs text-muted-foreground">Auto-delete after</p>
+              </div>
+              <span className="text-sm text-muted-foreground">7 years</span>
+            </div>
+            <div className="flex items-center justify-between py-2">
+              <div>
+                <p className="font-medium text-sm">Two-Factor Auth</p>
+                <p className="text-xs text-muted-foreground">For admin accounts</p>
+              </div>
+              <span className="text-sm text-muted-foreground">Recommended</span>
+            </div>
+          </CardContent>
+        </Card>
 
-      <Footer />
+        <Card>
+          <CardHeader>
+            <CardTitle>Notifications</CardTitle>
+            <CardDescription>Email and SMS settings</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="flex items-center justify-between py-2 border-b">
+              <div>
+                <p className="font-medium text-sm">Email Notifications</p>
+                <p className="text-xs text-muted-foreground">Case updates via email</p>
+              </div>
+              <span className="text-sm text-muted-foreground">Disabled</span>
+            </div>
+            <div className="flex items-center justify-between py-2">
+              <div>
+                <p className="font-medium text-sm">SMS Alerts</p>
+                <p className="text-xs text-muted-foreground">Emergency notifications</p>
+              </div>
+              <span className="text-sm text-muted-foreground">Disabled</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Integrations</CardTitle>
+            <CardDescription>Third-party services</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <div className="flex items-center justify-between py-2 border-b">
+              <div>
+                <p className="font-medium text-sm">Maps Integration</p>
+                <p className="text-xs text-muted-foreground">Leaflet/OpenStreetMap</p>
+              </div>
+              <span className="text-sm text-muted-foreground">Active</span>
+            </div>
+            <div className="flex items-center justify-between py-2">
+              <div>
+                <p className="font-medium text-sm">Analytics</p>
+                <p className="text-xs text-muted-foreground">Usage statistics</p>
+              </div>
+              <span className="text-sm text-muted-foreground">Disabled</span>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }

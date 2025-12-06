@@ -1,109 +1,99 @@
-/**
- * Admin Reports Page component.
- * Displays a list of recent reports and allows exporting them.
- */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { redirect } from 'next/navigation'
-import { Header } from '@/components/header'
-import { Footer } from '@/components/footer'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
+import { Download, FileDown } from 'lucide-react'
 
-/**
- * Admin Reports Page component.
- */
 export default async function AdminReportsPage() {
   const supabase = await getSupabaseServerClient()
 
-  // Ensure user is admin
-  try {
-    const {
-      data: { user },
-      error: userError,
-    } = await supabase.auth.getUser()
-
-    if (userError) throw new Error(userError.message)
-    if (!user || !user.id) return redirect('/')
-
-    const { data: userRecord, error: fetchUserError } = await supabase.from('users').select('role').eq('id', user.id).single()
-    if (fetchUserError) return redirect('/')
-    const role = (userRecord as any)?.role
-    if (role !== 'admin') return redirect('/')
-  } catch (e) {
-    return redirect('/')
-  }
-
-  // Fetch recent reports
-  const { data: reports } = await supabase.from('reports').select('id,violence_type,incident_date,status,created_at').order('created_at', { ascending: false }).limit(100)
+  const { data: reports } = await supabase
+    .from('reports')
+    .select('id,violence_type,incident_date,status,created_at,anonymous_id')
+    .order('created_at', { ascending: false })
+    .limit(100)
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <h1 className="text-3xl md:text-4xl font-bold">Reports</h1>
+        <p className="text-lg text-muted-foreground">View and export incident reports</p>
+      </div>
 
-      <main className="flex-1 py-12">
-        <div className="container max-w-6xl">
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <h1 className="text-3xl md:text-4xl font-bold">Admin: Reports</h1>
-              <p className="text-lg text-muted-foreground">Export and manage reports</p>
-            </div>
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between">
+            <span>Export Reports</span>
+            <Button asChild size="sm">
+              <a href="/api/reports/export" className="flex items-center gap-2">
+                <Download className="h-4 w-4" />
+                Download CSV
+              </a>
+            </Button>
+          </CardTitle>
+          <CardDescription>Download all reports in CSV format</CardDescription>
+        </CardHeader>
+      </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Exports</CardTitle>
-                <CardDescription>Download all reports as CSV</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex gap-4 mb-4">
-                  <a
-                    href="/api/reports/export"
-                    className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-95"
-                  >
-                    Download CSV (all reports)
-                  </a>
-                </div>
-
-                <div className="overflow-x-auto">
-                  <table className="w-full table-auto border-collapse">
-                    <thead>
-                      <tr className="text-left">
-                        <th className="px-2 py-2">ID</th>
-                        <th className="px-2 py-2">Type</th>
-                        <th className="px-2 py-2">Date</th>
-                        <th className="px-2 py-2">Status</th>
-                        <th className="px-2 py-2">Created</th>
-                        <th className="px-2 py-2">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {(reports || []).map((r: any) => (
-                        <tr key={r.id} className="border-t">
-                          <td className="px-2 py-2 text-sm text-slate-700">{r.id}</td>
-                          <td className="px-2 py-2 text-sm">{r.violence_type}</td>
-                          <td className="px-2 py-2 text-sm">{r.incident_date ?? '-'}</td>
-                          <td className="px-2 py-2 text-sm">{r.status}</td>
-                          <td className="px-2 py-2 text-sm">{r.created_at}</td>
-                          <td className="px-2 py-2 text-sm">
-                            <a
-                              href={`/api/reports/${r.id}/export`}
-                              className="inline-flex items-center rounded-md bg-muted px-3 py-1 text-xs font-medium text-white"
-                            >
-                              Export
-                            </a>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </CardContent>
-            </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent Reports ({reports?.length || 0})</CardTitle>
+          <CardDescription>Latest submitted incident reports</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <table className="w-full table-auto border-collapse">
+              <thead>
+                <tr className="text-left border-b">
+                  <th className="px-4 py-3 font-semibold">Case ID</th>
+                  <th className="px-4 py-3 font-semibold">Violence Type</th>
+                  <th className="px-4 py-3 font-semibold">Incident Date</th>
+                  <th className="px-4 py-3 font-semibold">Status</th>
+                  <th className="px-4 py-3 font-semibold">Submitted</th>
+                  <th className="px-4 py-3 font-semibold">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(reports || []).map((r: any) => (
+                  <tr key={r.id} className="border-b hover:bg-muted/50 transition-colors">
+                    <td className="px-4 py-3 font-mono text-sm">{r.anonymous_id}</td>
+                    <td className="px-4 py-3 text-sm capitalize">{r.violence_type?.replace(/_/g, ' ')}</td>
+                    <td className="px-4 py-3 text-sm">{r.incident_date ? new Date(r.incident_date).toLocaleDateString() : '-'}</td>
+                    <td className="px-4 py-3">
+                      <Badge
+                        variant={
+                          r.status === 'resolved' ? 'default' :
+                          r.status === 'in_progress' ? 'secondary' :
+                          'outline'
+                        }
+                      >
+                        {r.status?.replace(/_/g, ' ')}
+                      </Badge>
+                    </td>
+                    <td className="px-4 py-3 text-sm text-muted-foreground">
+                      {new Date(r.created_at).toLocaleDateString()}
+                    </td>
+                    <td className="px-4 py-3">
+                      <Button variant="ghost" size="sm" asChild>
+                        <a href={`/api/reports/${r.id}/export`} className="flex items-center gap-2">
+                          <FileDown className="h-4 w-4" />
+                          Export
+                        </a>
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {(!reports || reports.length === 0) && (
+              <div className="text-center py-8 text-muted-foreground">
+                No reports found
+              </div>
+            )}
           </div>
-        </div>
-      </main>
-
-      <Footer />
+        </CardContent>
+      </Card>
     </div>
   )
 }
