@@ -45,7 +45,29 @@ export default function AppointmentsPage() {
 
     const times = ["09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "03:00 PM", "04:00 PM"]
 
-    const handleNext = () => setStep((prev) => prev + 1)
+    const handleNext = async () => {
+        if (step === 3 && date) {
+            const { createAppointment } = await import("@/app/actions/appointments")
+
+            const result = await createAppointment({
+                serviceType: formData.service,
+                providerName: formData.provider,
+                appointmentDate: format(date, "yyyy-MM-dd"),
+                appointmentTime: formData.time,
+                contactName: formData.name || undefined,
+                contactEmail: formData.email || undefined,
+                notes: formData.notes || undefined,
+            })
+
+            if (result.success) {
+                setStep((prev) => prev + 1)
+            } else {
+                alert(result.error || "Failed to book appointment. Please try again.")
+            }
+        } else {
+            setStep((prev) => prev + 1)
+        }
+    }
     const handleBack = () => setStep((prev) => prev - 1)
 
     const updateField = (field: string, value: string) => {

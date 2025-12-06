@@ -27,14 +27,39 @@ export function ReviewSubmitStep({ data, onBack }: ReviewSubmitStepProps) {
   const handleSubmit = async () => {
     setIsSubmitting(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      const { createReport } = await import("@/app/actions/reports")
 
-    // Generate anonymous tracking ID
-    const trackingId = `GBV-${Date.now().toString(36).toUpperCase()}`
+      const result = await createReport({
+        violenceType: data.violenceType,
+        incidentDate: data.incidentDate ? data.incidentDate.toISOString() : undefined,
+        incidentLocation: data.incidentLocation,
+        description: data.description,
+        isAnonymous: data.isAnonymous,
+        immediateDanger: data.immediateDanger,
+        hasWeapons: data.hasWeapons,
+        threatsMade: data.threatsMade,
+        previousViolence: data.previousViolence,
+        substanceAbuse: data.substanceAbuse,
+        isolation: data.isolation,
+        financialControl: data.financialControl,
+        emergencyContacts: data.emergencyContacts,
+        safeLocations: data.safeLocations,
+        escapePlan: data.escapePlan,
+        importantDocuments: data.importantDocuments,
+      })
 
-    // Redirect to confirmation page
-    router.push(`/report/confirmation?id=${trackingId}`)
+      if (result.success && result.data) {
+        router.push(`/report/confirmation?id=${result.data.anonymousId}`)
+      } else {
+        alert(result.error || "Failed to submit report. Please try again.")
+        setIsSubmitting(false)
+      }
+    } catch (error) {
+      console.error("Submit error:", error)
+      alert("An unexpected error occurred. Please try again.")
+      setIsSubmitting(false)
+    }
   }
 
   const riskCount = [

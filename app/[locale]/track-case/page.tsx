@@ -28,16 +28,27 @@ export default function TrackCasePage() {
 
         setStatus("loading")
 
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1500))
+        const { getReportByAnonymousId } = await import("@/app/actions/reports")
+        const result = await getReportByAnonymousId(caseId.trim())
 
-        // Mock logic - in real app, this would query the DB
-        if (caseId.toUpperCase().startsWith("GBV-")) {
+        if (result.success && result.data) {
+            const report = result.data as {
+                id: string
+                anonymous_id: string
+                status: string
+                created_at: string
+                case_updates?: Array<{ message: string; created_at: string }>
+            }
+
+            const latestUpdate = report.case_updates && report.case_updates.length > 0
+                ? report.case_updates[0].message
+                : "Your report has been received and is being reviewed by a case worker. Please check back in 24 hours for an update."
+
             setCaseData({
-                id: caseId.toUpperCase(),
-                status: "Under Review",
-                date: new Date().toLocaleDateString(),
-                message: "Your report has been received and is being reviewed by a case worker. Please check back in 24 hours for an update."
+                id: report.anonymous_id,
+                status: report.status.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase()),
+                date: new Date(report.created_at).toLocaleDateString(),
+                message: latestUpdate
             })
             setStatus("found")
         } else {

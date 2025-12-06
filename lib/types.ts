@@ -79,7 +79,9 @@ export interface ReportFormData {
 
   // Safety Plan
   emergencyContacts?: Array<{ name: string; phone: string; relationship: string }>
-  safeLocations?: Array<{ name: string; address: string }>
+  safeLocations?: Array<{ name: string; address: string; notes?: string }>
+  escapePlan?: string
+  importantDocuments?: string[]
 
   // Evidence
   evidenceFiles?: EvidenceFile[]
