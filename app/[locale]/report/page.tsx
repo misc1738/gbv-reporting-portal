@@ -2,6 +2,8 @@
  * Report Page component.
  * Main page for submitting an incident report.
  */
+"use client"
+
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { ReportForm } from "@/components/report/report-form"

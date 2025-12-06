@@ -2,6 +2,8 @@
  * Evidence Vault Page component.
  * Allows users to upload and manage evidence files for a specific report.
  */
+"use client"
+
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"

@@ -2,7 +2,6 @@
  * Admin Reports Page component.
  * Displays a list of recent reports and allows exporting them.
  */
-"use server"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { redirect } from 'next/navigation'
