@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { UsersTable } from '@/components/admin/users-table'
-import { Badge } from '@/components/ui/badge'
+
 import { getSupabaseServerClient } from '@/lib/supabase/server'
 
 export default async function AdminUsersPage() {

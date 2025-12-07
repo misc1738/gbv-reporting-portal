@@ -94,6 +94,7 @@ export function ReportForm() {
   // Save draft on change
   useState(() => {
     if (typeof window !== 'undefined' && currentStep < 5) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { evidenceFiles, ...toSave } = formData
       const timeout = setTimeout(() => {
         localStorage.setItem('report-draft', JSON.stringify(toSave))

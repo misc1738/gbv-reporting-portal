@@ -148,8 +148,16 @@ export function EvidenceTable({ initialFiles }: { initialFiles: EvidenceFile[] }
                     {previewUrl && (
                         <div className="flex justify-center">
                             {previewType?.startsWith('image/') ? (
-                                // eslint-disable-next-line @next/next/no-img-element
-                                <img src={previewUrl} alt="Evidence Preview" className="max-w-full h-auto rounded-lg" />
+                                <div className="relative w-full h-auto">
+                                    <Image
+                                        src={previewUrl}
+                                        alt="Evidence Preview"
+                                        width={800}
+                                        height={600}
+                                        className="rounded-lg object-contain"
+                                        unoptimized
+                                    />
+                                </div>
                             ) : previewType?.startsWith('video/') ? (
                                 <video src={previewUrl} controls className="max-w-full h-auto rounded-lg" />
                             ) : (
