@@ -1,17 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { OverviewChart } from '@/components/admin/overview-chart'
+import { ViolenceDistributionChart } from '@/components/admin/violence-distribution-chart'
+import { RiskLevelChart } from '@/components/admin/risk-level-chart'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
-import { FileText, Files, Users, TrendingUp } from 'lucide-react'
+import { getDashboardStats } from '@/app/actions/reports'
+import { FileText, Files, Users, TrendingUp, AlertTriangle } from 'lucide-react'
 
 export default async function AdminDashboardPage() {
   const supabase = await getSupabaseServerClient()
 
-  const [{ count: reportsCount }, { count: evidenceCount }, { count: usersCount }] = await Promise.all([
-    supabase.from('reports').select('id', { count: 'estimated', head: true }),
+  // Fetch basic counts
+  const [{ count: evidenceCount }, { count: usersCount }] = await Promise.all([
     supabase.from('evidence_files').select('id', { count: 'estimated', head: true }),
     supabase.from('users').select('id', { count: 'estimated', head: true }),
   ]).then((results) => results.map((r: any) => ({ count: r?.count ?? 0 })))
+
+  // Fetch detailed stats
+  const statsResult = await getDashboardStats()
+  const stats = statsResult.success ? statsResult.data : null
 
   return (
     <div className="space-y-6">
@@ -20,16 +27,30 @@ export default async function AdminDashboardPage() {
         <p className="text-lg text-muted-foreground">Monitor and manage SafeSpace platform</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card className="hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Reports</CardTitle>
             <FileText className="h-5 w-5 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">{reportsCount ?? 0}</div>
+            <div className="text-3xl font-bold">{stats?.totalReports ?? 0}</div>
             <p className="text-xs text-muted-foreground mt-1">
               Incident reports submitted
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Cases</CardTitle>
+            <AlertTriangle className="h-5 w-5 text-orange-500" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold">{stats?.pendingReports ?? 0}</div>
+            <p className="text-xs text-muted-foreground mt-1">
+              In Progress or Submitted
             </p>
           </CardContent>
         </Card>
@@ -61,18 +82,41 @@ export default async function AdminDashboardPage() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-7 gap-6">
-        <Card className="col-span-1 md:col-span-4">
+      {/* Chart Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-7 gap-6">
+        <Card className="col-span-1 lg:col-span-4">
           <CardHeader>
-            <CardTitle>Overview</CardTitle>
+            <CardTitle>Report Trends</CardTitle>
             <CardDescription>Monthly incident reports</CardDescription>
           </CardHeader>
           <CardContent className="pl-2">
-            <OverviewChart />
+            <OverviewChart data={stats?.overview || []} />
           </CardContent>
         </Card>
 
-        <Card className="col-span-1 md:col-span-3">
+        <Card className="col-span-1 lg:col-span-3">
+          <CardHeader>
+            <CardTitle>Violence Distribution</CardTitle>
+            <CardDescription>Reports by violence type</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ViolenceDistributionChart data={stats?.violence || []} />
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-7 gap-6">
+        <Card className="col-span-1 lg:col-span-3">
+          <CardHeader>
+            <CardTitle>Risk Levels</CardTitle>
+            <CardDescription>Severity of reported incidents</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <RiskLevelChart data={stats?.risk || []} />
+          </CardContent>
+        </Card>
+
+        <Card className="col-span-1 lg:col-span-4">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5" />
@@ -81,7 +125,7 @@ export default async function AdminDashboardPage() {
             <CardDescription>Common administrative tasks</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <a
                 href="/en/admin/reports"
                 className="p-4 border rounded-lg hover:bg-accent transition-colors flex items-center justify-between group"

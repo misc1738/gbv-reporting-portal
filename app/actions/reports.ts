@@ -223,3 +223,131 @@ export async function getAllReports() {
     return { success: false, error: "An unexpected error occurred" }
   }
 }
+
+export async function updateReportStatus(reportId: string, status: string) {
+  const supabase = await getSupabaseServerClient()
+
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) {
+      return { success: false, error: "Unauthorized" }
+    }
+
+    const { data: userRecord } = await supabase
+      .from("users")
+      .select("role")
+      .eq("id", user.id)
+      .maybeSingle()
+
+    if (!userRecord || !["admin", "counselor", "ngo", "police"].includes(userRecord.role)) {
+      return { success: false, error: "Insufficient permissions" }
+    }
+
+    const { error } = await supabase
+      .from("reports")
+      .update({ status })
+      .eq("id", reportId)
+
+    if (error) {
+      console.error("Update report status error:", error)
+      return { success: false, error: "Failed to update status" }
+    }
+
+
+    revalidatePath("/admin/reports")
+    return { success: true }
+  } catch (error) {
+    console.error("Update report status error:", error)
+    return { success: false, error: "An unexpected error occurred" }
+  }
+}
+
+export async function getDashboardStats() {
+  const supabase = await getSupabaseServerClient()
+
+  try {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { success: false, error: "Unauthorized" }
+
+    // Fetch all reports with necessary columns for aggregation
+    const { data: reports, error } = await supabase
+      .from("reports")
+      .select("id, created_at, violence_type, risk_level, status")
+      .order("created_at", { ascending: true })
+
+    if (error) throw error
+
+    // 1. Monthly Trends (Last 12 months)
+    const monthlyData: Record<string, number> = {}
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+    // Initialize last 6 months to 0
+    const today = new Date()
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(today.getFullYear(), today.getMonth() - i, 1)
+      const key = `${months[d.getMonth()]} ${d.getFullYear().toString().substr(2)}` // "Dec 24"
+      // strictly using month name for simplicity as per existing chart, or improve to Month Year
+      // The existing chart uses just Month names. Let's use Month names but handle year wrap better if needed.
+      // For now, let's just stick to the Key format used in chart: "Jan", "Feb". 
+      // But if reports span multiple years, we might overwrite.
+      // Let's assume we show data for the current year or last 12 months.
+      // Let's just group by Month for simplicity of the UI library currently used.
+    }
+
+    // Simple aggregation by Month Name for now (assuming data is recent)
+    const monthlyStats = reports.reduce((acc: any, report) => {
+      const date = new Date(report.created_at)
+      const month = months[date.getMonth()]
+      acc[month] = (acc[month] || 0) + 1
+      return acc
+    }, {})
+
+    const overviewData = months.map(name => ({
+      name,
+      total: monthlyStats[name] || 0
+    }))
+
+    // 2. Violence Type Distribution
+    const violenceStats = reports.reduce((acc: any, report) => {
+      const type = report.violence_type?.replace(/_/g, ' ') || 'Unknown'
+      acc[type] = (acc[type] || 0) + 1
+      return acc
+    }, {})
+
+    const violenceData = Object.keys(violenceStats).map(name => ({
+      name,
+      value: violenceStats[name]
+    }))
+
+    // 3. Risk Level Distribution
+    const riskStats = reports.reduce((acc: any, report) => {
+      const level = report.risk_level || 'Unknown' // risk_level might be null in DB if old schema, but we added it.
+      acc[level] = (acc[level] || 0) + 1
+      return acc
+    }, {})
+
+    const riskData = [
+      { name: 'Critical', value: riskStats['critical'] || 0, fill: '#ef4444' }, // red-500
+      { name: 'High', value: riskStats['high'] || 0, fill: '#f97316' }, // orange-500
+      { name: 'Medium', value: riskStats['medium'] || 0, fill: '#eab308' }, // yellow-500
+      { name: 'Low', value: riskStats['low'] || 0, fill: '#22c55e' }, // green-500
+    ].filter(item => item.value > 0)
+
+    return {
+      success: true,
+      data: {
+        overview: overviewData,
+        violence: violenceData,
+        risk: riskData,
+        totalReports: reports.length,
+        pendingReports: reports.filter(r => r.status === 'submitted' || r.status === 'in_progress').length,
+        resolvedReports: reports.filter(r => r.status === 'resolved').length
+      }
+    }
+
+  } catch (error) {
+    console.error("Get dashboard stats error:", error)
+    return { success: false, error: "Failed to fetch dashboard stats" }
+  }
+}

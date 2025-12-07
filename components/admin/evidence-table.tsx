@@ -13,7 +13,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { FileIcon, Image, Video, FileText, Search, Download, Eye, Loader2 } from "lucide-react"
+import { FileIcon, Image as ImageIcon, Video, FileText, Search, Download, Eye, Loader2 } from "lucide-react"
+import NextImage from "next/image"
+
+
 import { getSignedUrl } from "@/app/actions/evidence"
 import { useToast } from "@/components/ui/use-toast"
 
@@ -49,7 +52,7 @@ export function EvidenceTable({ initialFiles }: { initialFiles: EvidenceFile[] }
     }
 
     const getFileIcon = (type: string) => {
-        if (type?.startsWith('image/')) return Image
+        if (type?.startsWith('image/')) return ImageIcon
         if (type?.startsWith('video/')) return Video
         if (type?.includes('pdf')) return FileText
         return FileIcon
@@ -149,7 +152,7 @@ export function EvidenceTable({ initialFiles }: { initialFiles: EvidenceFile[] }
                         <div className="flex justify-center">
                             {previewType?.startsWith('image/') ? (
                                 <div className="relative w-full h-auto">
-                                    <Image
+                                    <NextImage
                                         src={previewUrl}
                                         alt="Evidence Preview"
                                         width={800}
