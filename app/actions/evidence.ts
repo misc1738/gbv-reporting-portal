@@ -1,172 +1,148 @@
-"use server"
+'use server'
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { getSupabaseServerClient } from '@/lib/supabase/server'
+import { getSupabaseAdminClient } from '@/lib/supabase/admin'
+import { revalidatePath } from 'next/cache'
 
-import { getSupabaseServerClient } from "@/lib/supabase/server"
-import { revalidatePath } from "next/cache"
 
-/**
- * Uploads an encrypted evidence file to Supabase Storage and saves metadata to the database.
- * 
- * @param formData - The form data containing the file and metadata.
- * @returns An object indicating success or failure.
- */
 export async function uploadEvidence(formData: FormData) {
   const supabase = await getSupabaseServerClient()
 
-  const reportId = formData.get("reportId") as string
-  const fileName = formData.get("fileName") as string
-  const fileType = formData.get("fileType") as string
-  const fileSize = Number.parseInt(formData.get("fileSize") as string)
-  const encryptedData = formData.get("encryptedData") as string
-  const encryptionKey = formData.get("encryptionKey") as string
-  const iv = formData.get("iv") as string
+  const reportId = formData.get('reportId') as string
+  const fileName = formData.get('fileName') as string
+  const fileType = formData.get('fileType') as string
+  const fileSize = parseInt(formData.get('fileSize') as string)
+  const encryptedData = formData.get('encryptedData') as string
+  const encryptionKey = formData.get('encryptionKey') as string
+  const iv = formData.get('iv') as string
 
-  try {
-    // Store encrypted file in Supabase Storage
-    const storagePath = `evidence/${reportId}/${Date.now()}-${fileName}`
+  // Convert base64 back to buffer for storage
+  const fileBuffer = Buffer.from(encryptedData, 'base64')
+  const storagePath = `${reportId}/${Date.now()}-${fileName}`
 
-    const { error: uploadError } = await supabase.storage
-      .from("evidence-vault")
-      .upload(storagePath, Buffer.from(encryptedData, "base64"), {
-        contentType: "application/octet-stream",
-        upsert: false,
-      })
+  // 1. Upload to Supabase Storage
+  const { error: uploadError } = await supabase
+    .storage
+    .from('evidence')
+    .upload(storagePath, fileBuffer, {
+      contentType: fileType,
+      upsert: false
+    })
 
-    if (uploadError) {
-      console.error("[v0] Upload error:", uploadError)
-      return { success: false, error: "Failed to upload file" }
-    }
-
-    // Store metadata in database
-    const { data, error: dbError } = await supabase
-      .from("evidence_files")
-      .insert({
-        report_id: reportId,
-        file_name: fileName,
-        file_type: fileType,
-        file_size: fileSize,
-        storage_path: storagePath,
-        encryption_key: encryptionKey, // In production, this should be encrypted with a master key
-        iv: iv,
-      })
-      .select()
-      .single()
-
-    if (dbError) {
-      console.error("[v0] Database error:", dbError)
-      // Clean up uploaded file
-      await supabase.storage.from("evidence-vault").remove([storagePath])
-      return { success: false, error: "Failed to save file metadata" }
-    }
-
-    revalidatePath(`/report/${reportId}`)
-    return { success: true, data }
-  } catch (error) {
-    console.error("[v0] Upload evidence error:", error)
-    return { success: false, error: "An unexpected error occurred" }
+  if (uploadError) {
+    return { error: `Storage Error: ${uploadError.message}` }
   }
+
+  // 2. Save metadata to Database
+  const { error: dbError } = await supabase
+    .from('evidence_files')
+    .insert({
+      report_id: reportId,
+      file_name: fileName,
+      file_type: fileType,
+      file_size: fileSize,
+      storage_path: storagePath,
+      encryption_key: encryptionKey,
+      iv: iv,
+      uploaded_at: new Date().toISOString()
+    })
+
+  if (dbError) {
+    // Cleanup storage if DB insert fails
+    await supabase.storage.from('evidence').remove([storagePath])
+    return { error: `Database Error: ${dbError.message}` }
+  }
+
+  revalidatePath(`/admin/evidence`)
+  return { success: true }
 }
 
-/**
- * Fetches evidence files for a specific report.
- * 
- * @param reportId - The ID of the report.
- * @returns An object containing the list of evidence files or an error.
- */
+export async function getSignedUrl(filePath: string) {
+  const supabase = await getSupabaseServerClient()
+
+  const { data, error } = await supabase
+    .storage
+    .from('evidence')
+    .createSignedUrl(filePath, 3600) // 1 hour expiry
+
+  if (error) {
+    return { error: error.message }
+  }
+
+  return { url: data.signedUrl }
+}
+
 export async function getEvidenceFiles(reportId: string) {
   const supabase = await getSupabaseServerClient()
 
   const { data, error } = await supabase
-    .from("evidence_files")
-    .select("*")
-    .eq("report_id", reportId)
-    .order("uploaded_at", { ascending: false })
+    .from('evidence_files')
+    .select('*')
+    .eq('report_id', reportId)
+    .order('uploaded_at', { ascending: false })
 
   if (error) {
-    console.error("[v0] Get evidence files error:", error)
-    return { success: false, error: "Failed to fetch evidence files" }
+    return { error: error.message }
   }
 
   return { success: true, data }
 }
 
-/**
- * Deletes an evidence file from storage and the database.
- * 
- * @param evidenceId - The ID of the evidence file.
- * @returns An object indicating success or failure.
- */
 export async function deleteEvidence(evidenceId: string) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = getSupabaseAdminClient()
 
-  // Get file info first
-  const { data: evidence, error: fetchError } = await supabase
-    .from("evidence_files")
-    .select("storage_path")
-    .eq("id", evidenceId)
+  // First get the file path to delete from storage
+  const { data: fileData, error: fetchError } = await supabase
+    .from('evidence_files')
+    .select('storage_path')
+    .eq('id', evidenceId)
     .single()
 
-  if (fetchError || !evidence) {
-    return { success: false, error: "Evidence file not found" }
-  }
+  if (fetchError) return { error: fetchError.message }
 
-  // Delete from storage
-  const { error: storageError } = await supabase.storage.from("evidence-vault").remove([evidence.storage_path])
+  const { error: storageError } = await supabase
+    .storage
+    .from('evidence')
+    .remove([fileData.storage_path])
 
-  if (storageError) {
-    console.error("[v0] Storage deletion error:", storageError)
-    return { success: false, error: "Failed to delete file from storage" }
-  }
+  if (storageError) return { error: storageError.message }
 
-  // Delete from database
-  const { error: dbError } = await supabase.from("evidence_files").delete().eq("id", evidenceId)
+  const { error: dbError } = await supabase
+    .from('evidence_files')
+    .delete()
+    .eq('id', evidenceId)
 
-  if (dbError) {
-    console.error("[v0] Database deletion error:", dbError)
-    return { success: false, error: "Failed to delete file metadata" }
-  }
+  if (dbError) return { error: dbError.message }
 
+  revalidatePath('/admin/evidence')
   return { success: true }
 }
 
-/**
- * Generates a signed URL for downloading an evidence file.
- * 
- * @param evidenceId - The ID of the evidence file.
- * @returns An object containing the download URL and encryption details.
- */
 export async function downloadEvidence(evidenceId: string) {
-  const supabase = await getSupabaseServerClient()
+  const supabase = getSupabaseAdminClient()
 
-  // Get file info
-  const { data: evidence, error: fetchError } = await supabase
-    .from("evidence_files")
-    .select("*")
-    .eq("id", evidenceId)
+  const { data: fileData, error: fetchError } = await supabase
+    .from('evidence_files')
+    .select('*')
+    .eq('id', evidenceId)
     .single()
 
-  if (fetchError || !evidence) {
-    return { success: false, error: "Evidence file not found" }
-  }
+  if (fetchError) return { error: fetchError.message }
 
-  // Get signed URL for download
-  const { data: urlData, error: urlError } = await supabase.storage
-    .from("evidence-vault")
-    .createSignedUrl(evidence.storage_path, 60) // 60 seconds expiry
+  const { data: signedUrlData, error: signedUrlError } = await supabase
+    .storage
+    .from('evidence')
+    .createSignedUrl(fileData.storage_path, 60) // 1 minute expiry for download
 
-  if (urlError || !urlData) {
-    console.error("[v0] URL generation error:", urlError)
-    return { success: false, error: "Failed to generate download URL" }
-  }
+  if (signedUrlError) return { error: signedUrlError.message }
 
   return {
     success: true,
     data: {
-      url: urlData.signedUrl,
-      fileName: evidence.file_name,
-      encryptionKey: evidence.encryption_key,
-      iv: evidence.iv,
-    },
+      url: signedUrlData.signedUrl,
+      encryptionKey: fileData.encryption_key,
+      iv: fileData.iv, // Assuming IV is stored, if not handled in key
+      fileName: fileData.file_name
+    }
   }
 }

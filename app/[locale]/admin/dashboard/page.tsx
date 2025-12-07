@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { OverviewChart } from '@/components/admin/overview-chart'
 import { getSupabaseServerClient } from '@/lib/supabase/server'
 import { FileText, Files, Users, TrendingUp } from 'lucide-react'
 
@@ -60,47 +61,67 @@ export default async function AdminDashboardPage() {
         </Card>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5" />
-            Quick Actions
-          </CardTitle>
-          <CardDescription>Common administrative tasks</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <a
-              href="/en/admin/reports"
-              className="p-4 border rounded-lg hover:bg-accent transition-colors"
-            >
-              <h3 className="font-semibold mb-1">Review Reports</h3>
-              <p className="text-sm text-muted-foreground">View and manage incident reports</p>
-            </a>
-            <a
-              href="/en/admin/users"
-              className="p-4 border rounded-lg hover:bg-accent transition-colors"
-            >
-              <h3 className="font-semibold mb-1">Manage Users</h3>
-              <p className="text-sm text-muted-foreground">View and update user accounts</p>
-            </a>
-            <a
-              href="/en/admin/evidence"
-              className="p-4 border rounded-lg hover:bg-accent transition-colors"
-            >
-              <h3 className="font-semibold mb-1">Evidence Vault</h3>
-              <p className="text-sm text-muted-foreground">Access encrypted evidence files</p>
-            </a>
-            <a
-              href="/en/admin/notifications"
-              className="p-4 border rounded-lg hover:bg-accent transition-colors"
-            >
-              <h3 className="font-semibold mb-1">Send Notifications</h3>
-              <p className="text-sm text-muted-foreground">Communicate with users</p>
-            </a>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-1 md:grid-cols-7 gap-6">
+        <Card className="col-span-1 md:col-span-4">
+          <CardHeader>
+            <CardTitle>Overview</CardTitle>
+            <CardDescription>Monthly incident reports</CardDescription>
+          </CardHeader>
+          <CardContent className="pl-2">
+            <OverviewChart />
+          </CardContent>
+        </Card>
+
+        <Card className="col-span-1 md:col-span-3">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5" />
+              Quick Actions
+            </CardTitle>
+            <CardDescription>Common administrative tasks</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 gap-4">
+              <a
+                href="/en/admin/reports"
+                className="p-4 border rounded-lg hover:bg-accent transition-colors flex items-center justify-between group"
+              >
+                <div>
+                  <h3 className="font-semibold mb-1 group-hover:text-primary transition-colors">Review Reports</h3>
+                  <p className="text-sm text-muted-foreground">View and manage incident reports</p>
+                </div>
+              </a>
+              <a
+                href="/en/admin/users"
+                className="p-4 border rounded-lg hover:bg-accent transition-colors flex items-center justify-between group"
+              >
+                <div>
+                  <h3 className="font-semibold mb-1 group-hover:text-primary transition-colors">Manage Users</h3>
+                  <p className="text-sm text-muted-foreground">View and update user accounts</p>
+                </div>
+              </a>
+              <a
+                href="/en/admin/evidence"
+                className="p-4 border rounded-lg hover:bg-accent transition-colors flex items-center justify-between group"
+              >
+                <div>
+                  <h3 className="font-semibold mb-1 group-hover:text-primary transition-colors">Evidence Vault</h3>
+                  <p className="text-sm text-muted-foreground">Access encrypted evidence files</p>
+                </div>
+              </a>
+              <a
+                href="/en/admin/notifications"
+                className="p-4 border rounded-lg hover:bg-accent transition-colors flex items-center justify-between group"
+              >
+                <div>
+                  <h3 className="font-semibold mb-1 group-hover:text-primary transition-colors">Send Notifications</h3>
+                  <p className="text-sm text-muted-foreground">Communicate with users</p>
+                </div>
+              </a>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }

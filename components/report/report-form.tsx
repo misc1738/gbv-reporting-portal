@@ -75,8 +75,38 @@ export function ReportForm() {
     importantDocuments: [],
   })
 
+  // Load draft on mount
+  useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('report-draft')
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved)
+          // Exclude file objects as they can't be serialized effectively in localStorage without conversion
+          setFormData(prev => ({ ...prev, ...parsed, evidenceFiles: [] }))
+        } catch (e) {
+          console.error("Failed to load draft", e)
+        }
+      }
+    }
+  })
+
+  // Save draft on change
+  useState(() => {
+    if (typeof window !== 'undefined' && currentStep < 5) {
+      const { evidenceFiles, ...toSave } = formData
+      const timeout = setTimeout(() => {
+        localStorage.setItem('report-draft', JSON.stringify(toSave))
+      }, 1000)
+      return () => clearTimeout(timeout)
+    }
+  })
+
   const updateFormData = (data: Partial<ReportFormData>) => {
-    setFormData((prev) => ({ ...prev, ...data }))
+    setFormData((prev) => {
+      const newData = { ...prev, ...data }
+      return newData
+    })
   }
 
   const nextStep = () => {
@@ -95,6 +125,11 @@ export function ReportForm() {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <div className="text-sm text-muted-foreground italic">
+          {currentStep < 5 ? "Draft saved automatically locally" : ""}
+        </div>
+      </div>
       {/* Progress indicator */}
       <Card>
         <CardHeader>
