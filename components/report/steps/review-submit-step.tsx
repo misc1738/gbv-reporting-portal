@@ -34,7 +34,7 @@ export function ReviewSubmitStep({ data, onBack }: ReviewSubmitStepProps) {
 
       const result = await createReport({
         violenceType: data.violenceType,
-        incidentDate: data.incidentDate ? data.incidentDate.toISOString() : undefined,
+        incidentDate: data.incidentDate ? new Date(data.incidentDate).toISOString() : undefined,
         incidentLocation: data.incidentLocation,
         description: data.description,
         isAnonymous: data.isAnonymous,
