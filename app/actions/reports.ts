@@ -20,6 +20,16 @@ interface CreateReportData {
   safeLocations?: Array<{ name: string; address: string; notes?: string }>
   escapePlan?: string
   importantDocuments?: string[]
+  demographics?: {
+    ageGroup?: string
+    gender?: string
+    isDisplaced?: boolean
+  }
+  perpetratorDetails?: {
+    relationship?: string
+    knownToVictim?: boolean
+    multiplePerpetrators?: boolean
+  }
 }
 
 function generateAnonymousId(): string {
@@ -72,6 +82,8 @@ export async function createReport(data: CreateReportData) {
         incident_date: data.incidentDate || null,
         incident_location: data.incidentLocation || null,
         description: data.description,
+        demographics: data.demographics || null,
+        perpetrator_details: data.perpetratorDetails || null,
         status: "submitted",
         risk_level: level,
         is_anonymous: data.isAnonymous,

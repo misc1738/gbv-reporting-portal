@@ -292,6 +292,34 @@ export default function SafetyPlanPage() {
                                         <Printer className="mr-2 h-4 w-4" /> Print / Save PDF
                                     </Button>
                                 )}
+                                {step === steps.length && (
+                                    <Button
+                                        onClick={async () => {
+                                            const { createSafetyPlan } = await import("@/app/actions/safety-plans");
+                                            const result = await createSafetyPlan({
+                                                emergencyContacts: [], // Map from formData if schema matches, or user needs to input structured data 
+                                                // The current formData (safePeople strings) doesn't perfectly match the action's expected type (name, phone, relationship).
+                                                // For now, mapping simple strings to 'name' and leaving others blank or adapting action.
+                                                // Let's just save the unstructured data into the notes/support fields for now or improve the form later.
+                                                // Actually, let's map what we have:
+                                                supportNetwork: { safePeople: formData.safePeople, safePlaces: formData.safePlaces },
+                                                escapePlan: formData.codeWord ? `Code Word: ${formData.codeWord}` : undefined,
+                                                financialResources: formData.essentials,
+                                                // We will need to enhance the form to match the schema perfectly later, 
+                                                // but for now let's save what we have.
+                                            });
+                                            if (result.success) {
+                                                alert("Safety Plan saved to your secure profile.");
+                                            } else {
+                                                alert("Login required to save online. You can still print.");
+                                            }
+                                        }}
+                                        variant="outline"
+                                        className="ml-2"
+                                    >
+                                        <Shield className="mr-2 h-4 w-4" /> Save to Profile
+                                    </Button>
+                                )}
                             </CardFooter>
                         </Card>
                     )}
