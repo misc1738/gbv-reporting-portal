@@ -82,8 +82,6 @@ export async function createReport(data: CreateReportData) {
         incident_date: data.incidentDate || null,
         incident_location: data.incidentLocation || null,
         description: data.description,
-        demographics: data.demographics || null,
-        perpetrator_details: data.perpetratorDetails || null,
         status: "submitted",
         risk_level: level,
         is_anonymous: data.isAnonymous,
@@ -93,7 +91,7 @@ export async function createReport(data: CreateReportData) {
 
     if (reportError) {
       console.error("Report creation error:", reportError)
-      return { success: false, error: "Failed to create report" }
+      return { success: false, error: reportError.message || "Failed to create report" }
     }
 
     const { error: riskError } = await supabase
@@ -144,7 +142,7 @@ export async function createReport(data: CreateReportData) {
     }
   } catch (error) {
     console.error("Create report error:", error)
-    return { success: false, error: "An unexpected error occurred" }
+    return { success: false, error: error instanceof Error ? error.message : "An unexpected error occurred" }
   }
 }
 
