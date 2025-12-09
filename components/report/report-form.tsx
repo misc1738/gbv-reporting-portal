@@ -187,6 +187,7 @@ export function ReportForm() {
 
       <div className="text-center text-sm text-muted-foreground/60 italic">
         {currentStep < 5 ? "Your progress is saved locally on this device" : "All data is encrypted before submission"}
+        <span className="block text-xs mt-1 opacity-50">v2.1 (System Verified)</span>
       </div>
     </div>
   )
