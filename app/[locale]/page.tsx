@@ -47,7 +47,8 @@ export default function HomePage() {
         {/* Hero Section */}
         <section className="relative py-24 md:py-32 overflow-hidden">
           {/* Complex Mesh Gradient Background */}
-          <div className="absolute inset-0 bg-gradient-hero -z-10 opacity-80" />
+          <div className="absolute inset-0 bg-gradient-hero -z-10 opacity-90" />
+          <div className="absolute inset-0 bg-[url('/images/hero-empowerment.png')] bg-cover bg-center -z-10 opacity-30 mix-blend-soft-light" />
           <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay -z-10" />
 
           {/* Floating 3D Elements */}
