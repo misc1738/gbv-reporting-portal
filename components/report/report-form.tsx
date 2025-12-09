@@ -5,7 +5,7 @@
 "use client"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { IncidentDetailsStep } from "./steps/incident-details-step"
@@ -58,6 +58,7 @@ const STEPS = [
  */
 export function ReportForm() {
   const [currentStep, setCurrentStep] = useState(1)
+  const [isLoaded, setIsLoaded] = useState(false)
   const [formData, setFormData] = useState<ReportFormData>({
     violenceType: "",
     description: "",
@@ -76,24 +77,26 @@ export function ReportForm() {
   })
 
   // Load draft on mount
-  useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('report-draft')
-      if (saved) {
-        try {
+  useEffect(() => {
+    const loadDraft = () => {
+      try {
+        const saved = localStorage.getItem('report-draft')
+        if (saved) {
           const parsed = JSON.parse(saved)
-          // Exclude file objects as they can't be serialized effectively in localStorage without conversion
           setFormData(prev => ({ ...prev, ...parsed, evidenceFiles: [] }))
-        } catch (e) {
-          console.error("Failed to load draft", e)
         }
+      } catch (e) {
+        console.error("Failed to load draft", e)
+      } finally {
+        setIsLoaded(true)
       }
     }
-  })
+    loadDraft()
+  }, [])
 
   // Save draft on change
-  useState(() => {
-    if (typeof window !== 'undefined' && currentStep < 5) {
+  useEffect(() => {
+    if (isLoaded && currentStep < 5) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { evidenceFiles, ...toSave } = formData
       const timeout = setTimeout(() => {
@@ -101,53 +104,76 @@ export function ReportForm() {
       }, 1000)
       return () => clearTimeout(timeout)
     }
-  })
+  }, [formData, currentStep, isLoaded])
 
   const updateFormData = (data: Partial<ReportFormData>) => {
-    setFormData((prev) => {
-      const newData = { ...prev, ...data }
-      return newData
-    })
+    setFormData((prev) => ({ ...prev, ...data }))
   }
 
   const nextStep = () => {
     if (currentStep < STEPS.length) {
       setCurrentStep(currentStep + 1)
+      window.scrollTo(0, 0)
     }
   }
 
   const prevStep = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1)
+      window.scrollTo(0, 0)
     }
+  }
+
+  if (!isLoaded) {
+    return null // or a loading spinner
   }
 
   const progress = (currentStep / STEPS.length) * 100
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div className="text-sm text-muted-foreground italic">
-          {currentStep < 5 ? "Draft saved automatically locally" : ""}
+    <div className="max-w-3xl mx-auto space-y-8 pb-12">
+      {/* Progress Stepper */}
+      <div className="relative">
+        <div className="absolute top-1/2 left-0 w-full h-1 bg-muted -z-10 rounded-full" />
+        <div
+          className="absolute top-1/2 left-0 h-1 bg-primary -z-10 rounded-full transition-all duration-500 ease-in-out"
+          style={{ width: `${((currentStep - 1) / (STEPS.length - 1)) * 100}%` }}
+        />
+        <div className="flex justify-between items-center">
+          {STEPS.map((step) => {
+            const isActive = step.id === currentStep
+            const isCompleted = step.id < currentStep
+            return (
+              <div key={step.id} className="flex flex-col items-center gap-2">
+                <div
+                  className={`
+                    w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300
+                    ${isActive ? 'bg-primary text-primary-foreground scale-110 shadow-lg ring-4 ring-primary/20' :
+                      isCompleted ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}
+                  `}
+                >
+                  {isCompleted ? '✓' : step.id}
+                </div>
+                <div className="text-xs font-medium hidden sm:block text-muted-foreground">
+                  {step.name}
+                </div>
+              </div>
+            )
+          })}
         </div>
       </div>
-      {/* Progress indicator */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between mb-2">
-            <CardTitle className="text-lg">
-              Step {currentStep} of {STEPS.length}: {STEPS[currentStep - 1].name}
-            </CardTitle>
-            <span className="text-sm text-muted-foreground">{Math.round(progress)}%</span>
-          </div>
-          <Progress value={progress} className="h-2" />
-          <CardDescription>{STEPS[currentStep - 1].description}</CardDescription>
-        </CardHeader>
-      </Card>
 
-      {/* Step content */}
-      <Card>
-        <CardContent className="pt-6">
+      <Card className="border-none shadow-xl bg-card/95 backdrop-blur-sm">
+        <CardHeader className="text-center space-y-2 pb-8">
+          <CardTitle className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
+            {STEPS[currentStep - 1].name}
+          </CardTitle>
+          <CardDescription className="text-base md:text-lg">
+            {STEPS[currentStep - 1].description}
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent className="px-6 md:px-8">
           {currentStep === 1 && <IncidentDetailsStep data={formData as any} updateData={updateFormData as any} onNext={nextStep} />}
           {currentStep === 2 && (
             <RiskAssessmentStep data={formData as any} updateData={updateFormData as any} onNext={nextStep} onBack={prevStep} />
@@ -161,6 +187,10 @@ export function ReportForm() {
           {currentStep === 5 && <ReviewSubmitStep data={formData as any} onBack={prevStep} />}
         </CardContent>
       </Card>
+
+      <div className="text-center text-sm text-muted-foreground/60 italic">
+        {currentStep < 5 ? "Your progress is saved locally on this device" : "All data is encrypted before submission"}
+      </div>
     </div>
   )
 }

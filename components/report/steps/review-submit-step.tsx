@@ -52,6 +52,7 @@ export function ReviewSubmitStep({ data, onBack }: ReviewSubmitStepProps) {
       })
 
       if (result.success && result.data) {
+        // Trigger confetti
         import("canvas-confetti").then((confetti) => {
           const duration = 5 * 1000
           const animationEnd = Date.now() + duration
@@ -71,8 +72,15 @@ export function ReviewSubmitStep({ data, onBack }: ReviewSubmitStepProps) {
             confetti.default({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } })
           }, 250)
         })
+
+        // Clear draft
+        localStorage.removeItem('report-draft')
+
         router.push(`/${locale}/report/confirmation?id=${result.data.anonymousId}`)
       } else {
+        console.error("Submission failed:", result.error)
+        // You might want to use a toast here if available, but for now we'll stick to alert or a more visible error state
+        // If toast is not available in context, we can add a local error state to show in UI
         alert(result.error || "Failed to submit report. Please try again.")
         setIsSubmitting(false)
       }
