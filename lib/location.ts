@@ -9,7 +9,7 @@ export interface LocationData {
     longitude: number
 }
 
-const API_KEY = "2fe08b130147448891b6c6b5355625c1"
+const API_KEY = process.env.NEXT_PUBLIC_IPGEOLOCATION_API_KEY
 
 /**
  * Fetches the user's location using the IPGeolocation API.
