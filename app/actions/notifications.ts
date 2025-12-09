@@ -11,9 +11,8 @@ interface CreateNotificationData {
 }
 
 export async function sendNotification(data: CreateNotificationData) {
-    const supabase = await getSupabaseServerClient()
-
     try {
+        const supabase = await getSupabaseServerClient()
         const { data: { user } } = await supabase.auth.getUser()
         if (!user) return { success: false, error: "Unauthorized" }
 
@@ -51,9 +50,8 @@ export async function sendNotification(data: CreateNotificationData) {
 }
 
 export async function getRecentNotifications() {
-    const supabase = await getSupabaseServerClient()
-
     try {
+        const supabase = await getSupabaseServerClient()
         const { data, error } = await supabase
             .from("notifications")
             .select(`

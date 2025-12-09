@@ -42,19 +42,19 @@ export async function createReport(data: ReportFormData) {
     return { success: false, error: "Configuration Error: Missing Database Credentials. Check Vercel Env Vars." }
   }
 
-  if (!supabaseUrl.startsWith("https://")) {
-    console.error("Invalid Supabase URL protocol")
-    return { success: false, error: "Configuration Error: Invalid Supabase URL. Must start with 'https://'." }
-  }
-
-  const supabase = await getSupabaseServerClient()
-
   try {
+    const supabase = await getSupabaseServerClient()
+
     const anonymousId = generateAnonymousId()
     const { score, level } = calculateRiskScore(data)
 
     let userId = null
-    const { data: { user } } = await supabase.auth.getUser()
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+
+    if (authError) {
+      console.warn("Auth check failed (user might be anon):", authError.message)
+    }
+
     if (user && !data.isAnonymous) {
       userId = user.id
     }
@@ -76,7 +76,7 @@ export async function createReport(data: ReportFormData) {
       })
 
     if (reportError) {
-      console.error("Report creation error:", reportError)
+      console.error("Report creation error details:", JSON.stringify(reportError, null, 2))
       return { success: false, error: reportError.message || "Failed to create report" }
     }
 
@@ -127,15 +127,15 @@ export async function createReport(data: ReportFormData) {
       },
     }
   } catch (error) {
-    console.error("Create report error:", error)
+    console.error("Create report critical error:", error)
     return { success: false, error: `Server Error: ${error instanceof Error ? error.message : "Unknown error"}` }
   }
 }
 
 export async function getReportByAnonymousId(anonymousId: string) {
-  const supabase = await getSupabaseServerClient()
-
   try {
+    const supabase = await getSupabaseServerClient()
+
     const { data: report, error } = await supabase
       .from("reports")
       .select(`
@@ -172,9 +172,9 @@ export async function getReportByAnonymousId(anonymousId: string) {
 }
 
 export async function getAllReports() {
-  const supabase = await getSupabaseServerClient()
-
   try {
+    const supabase = await getSupabaseServerClient()
+
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
@@ -209,9 +209,9 @@ export async function getAllReports() {
 }
 
 export async function updateReportStatus(reportId: string, status: string) {
-  const supabase = await getSupabaseServerClient()
-
   try {
+    const supabase = await getSupabaseServerClient()
+
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
@@ -248,9 +248,9 @@ export async function updateReportStatus(reportId: string, status: string) {
 }
 
 export async function getDashboardStats() {
-  const supabase = await getSupabaseServerClient()
-
   try {
+    const supabase = await getSupabaseServerClient()
+
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return { success: false, error: "Unauthorized" }
 
