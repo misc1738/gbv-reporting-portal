@@ -13,7 +13,16 @@ export function getSupabaseBrowserClient() {
     return client
   }
 
-  client = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY!)
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
+
+  if (!supabaseUrl || !supabaseKey) {
+    console.error("Supabase environment variables are missing. Please check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY.")
+    // We can't return null if the return type is checked strictly elsewhere, but we can throw a descriptive error
+    throw new Error("Supabase environment variables are missing.")
+  }
+
+  client = createBrowserClient(supabaseUrl, supabaseKey)
 
   return client
 }
