@@ -62,89 +62,109 @@ function calculateRiskScore(data: CreateReportData): { score: number; level: str
 }
 
 export async function createReport(data: CreateReportData) {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  if (!supabaseUrl || !supabaseKey) {
+    console.error("Missing Supabase environment variables")
+    return { success: false, error: "Configuration Error: Missing Database Credentials. Check Vercel Env Vars." }
+  }
+
+  if (!supabaseUrl.startsWith("https://")) {
+    console.error("Invalid Supabase URL protocol")
+    return { success: false, error: "Configuration Error: Invalid Supabase URL. Must start with 'https://'." }
+  }
+
   const supabase = await getSupabaseServerClient()
 
   try {
     const anonymousId = generateAnonymousId()
-    const { score, level } = calculateRiskScore(data)
+    // ... (rest of logic)
 
-    let userId = null
-    const { data: { user } } = await supabase.auth.getUser()
-    if (user && !data.isAnonymous) {
-      userId = user.id
-    }
-
-    const reportId = randomUUID()
-    const { error: reportError } = await supabase
-      .from("reports")
-      .insert({
-        id: reportId,
-        user_id: userId,
-        anonymous_id: anonymousId,
-        violence_type: data.violenceType,
-        incident_date: data.incidentDate || null,
-        incident_location: data.incidentLocation || null,
-        description: data.description,
-        status: "submitted",
-        risk_level: level,
-        is_anonymous: data.isAnonymous,
-      })
-
-    if (reportError) {
-      console.error("Report creation error:", reportError)
-      return { success: false, error: reportError.message || "Failed to create report" }
-    }
-
-    const { error: riskError } = await supabase
-      .from("risk_assessments")
-      .insert({
-        report_id: reportId,
-        immediate_danger: data.immediateDanger || false,
-        has_weapons: data.hasWeapons || false,
-        threats_made: data.threatsMade || false,
-        previous_violence: data.previousViolence || false,
-        substance_abuse: data.substanceAbuse || false,
-        isolation: data.isolation || false,
-        financial_control: data.financialControl || false,
-        risk_score: score,
-        risk_level: level,
-      })
-
-    if (riskError) {
-      console.error("Risk assessment error:", riskError)
-    }
-
-    if (userId && (data.emergencyContacts || data.safeLocations || data.escapePlan)) {
-      const { error: safetyError } = await supabase
-        .from("safety_plans")
-        .insert({
-          report_id: reportId,
-          user_id: userId,
-          emergency_contacts: data.emergencyContacts || [],
-          safe_locations: data.safeLocations || [],
-          escape_plan: data.escapePlan || null,
-          important_documents: data.importantDocuments || [],
-        })
-
-      if (safetyError) {
-        console.error("Safety plan error:", safetyError)
-      }
-    }
-
-    revalidatePath("/report")
-
-    return {
-      success: true,
-      data: {
-        reportId: reportId,
-        anonymousId: anonymousId,
-        riskLevel: level,
-      },
-    }
   } catch (error) {
     console.error("Create report error:", error)
-    return { success: false, error: error instanceof Error ? error.message : "An unexpected error occurred" }
+    return { success: false, error: `Server Error: ${error instanceof Error ? error.message : "Unknown error"}` }
   }
+}
+const { score, level } = calculateRiskScore(data)
+
+let userId = null
+const { data: { user } } = await supabase.auth.getUser()
+if (user && !data.isAnonymous) {
+  userId = user.id
+}
+
+const reportId = randomUUID()
+const { error: reportError } = await supabase
+  .from("reports")
+  .insert({
+    id: reportId,
+    user_id: userId,
+    anonymous_id: anonymousId,
+    violence_type: data.violenceType,
+    incident_date: data.incidentDate || null,
+    incident_location: data.incidentLocation || null,
+    description: data.description,
+    status: "submitted",
+    risk_level: level,
+    is_anonymous: data.isAnonymous,
+  })
+
+if (reportError) {
+  console.error("Report creation error:", reportError)
+  return { success: false, error: reportError.message || "Failed to create report" }
+}
+
+const { error: riskError } = await supabase
+  .from("risk_assessments")
+  .insert({
+    report_id: reportId,
+    immediate_danger: data.immediateDanger || false,
+    has_weapons: data.hasWeapons || false,
+    threats_made: data.threatsMade || false,
+    previous_violence: data.previousViolence || false,
+    substance_abuse: data.substanceAbuse || false,
+    isolation: data.isolation || false,
+    financial_control: data.financialControl || false,
+    risk_score: score,
+    risk_level: level,
+  })
+
+if (riskError) {
+  console.error("Risk assessment error:", riskError)
+}
+
+if (userId && (data.emergencyContacts || data.safeLocations || data.escapePlan)) {
+  const { error: safetyError } = await supabase
+    .from("safety_plans")
+    .insert({
+      report_id: reportId,
+      user_id: userId,
+      emergency_contacts: data.emergencyContacts || [],
+      safe_locations: data.safeLocations || [],
+      escape_plan: data.escapePlan || null,
+      important_documents: data.importantDocuments || [],
+    })
+
+  if (safetyError) {
+    console.error("Safety plan error:", safetyError)
+  }
+}
+
+revalidatePath("/report")
+
+return {
+  success: true,
+  data: {
+    reportId: reportId,
+    anonymousId: anonymousId,
+    riskLevel: level,
+  },
+}
+  } catch (error) {
+  console.error("Create report error:", error)
+  return { success: false, error: error instanceof Error ? error.message : "An unexpected error occurred" }
+}
 }
 
 export async function getReportByAnonymousId(anonymousId: string) {
