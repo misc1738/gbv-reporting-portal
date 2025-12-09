@@ -277,23 +277,10 @@ export async function getDashboardStats() {
     if (error) throw error
 
     // 1. Monthly Trends (Last 12 months)
-    const monthlyData: Record<string, number> = {}
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
-    // Initialize last 6 months to 0
-    const today = new Date()
-    for (let i = 5; i >= 0; i--) {
-      const d = new Date(today.getFullYear(), today.getMonth() - i, 1)
-      const key = `${months[d.getMonth()]} ${d.getFullYear().toString().substr(2)}` // "Dec 24"
-      // strictly using month name for simplicity as per existing chart, or improve to Month Year
-      // The existing chart uses just Month names. Let's use Month names but handle year wrap better if needed.
-      // For now, let's just stick to the Key format used in chart: "Jan", "Feb". 
-      // But if reports span multiple years, we might overwrite.
-      // Let's assume we show data for the current year or last 12 months.
-      // Let's just group by Month for simplicity of the UI library currently used.
-    }
-
     // Simple aggregation by Month Name for now (assuming data is recent)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const monthlyStats = reports.reduce((acc: any, report) => {
       const date = new Date(report.created_at)
       const month = months[date.getMonth()]
@@ -307,6 +294,7 @@ export async function getDashboardStats() {
     }))
 
     // 2. Violence Type Distribution
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const violenceStats = reports.reduce((acc: any, report) => {
       const type = report.violence_type?.replace(/_/g, ' ') || 'Unknown'
       acc[type] = (acc[type] || 0) + 1
@@ -319,6 +307,7 @@ export async function getDashboardStats() {
     }))
 
     // 3. Risk Level Distribution
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const riskStats = reports.reduce((acc: any, report) => {
       const level = report.risk_level || 'Unknown' // risk_level might be null in DB if old schema, but we added it.
       acc[level] = (acc[level] || 0) + 1

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NotificationsForm } from '@/components/admin/notifications-form'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Bell, Clock, CheckCircle2 } from 'lucide-react'
 import { getRecentNotifications } from '@/app/actions/notifications'
@@ -63,10 +62,10 @@ export default async function AdminNotificationsPage() {
             </CardHeader>
             <CardContent className="space-y-4 text-sm">
               <p>
-                <strong>Broadcasts:</strong> Messages with "All Users" selected will be visible to everyone on the platform. Use for system maintenance or major announcements.
+                <strong>Broadcasts:</strong> Messages with &quot;All Users&quot; selected will be visible to everyone on the platform. Use for system maintenance or major announcements.
               </p>
               <p>
-                <strong>Warnings:</strong> Use the "Warning" type for security alerts or critical service interruptions. These are highlighted to grab attention.
+                <strong>Warnings:</strong> Use the &quot;Warning&quot; type for security alerts or critical service interruptions. These are highlighted to grab attention.
               </p>
             </CardContent>
           </Card>

@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { MoreHorizontal, Search, FileDown, Download, Filter, RefreshCcw } from "lucide-react"
+import { MoreHorizontal, Search, Download, Filter, RefreshCcw } from "lucide-react"
 import { updateReportStatus } from "@/app/actions/reports"
 import { useToast } from "@/components/ui/use-toast"
 import { format } from "date-fns"
@@ -35,7 +35,9 @@ interface Report {
     incident_date: string | null
     status: string
     created_at: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     demographics?: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     perpetrator_details?: any
     risk_level?: string
     description?: string
@@ -156,7 +158,8 @@ export function ReportsTable({ initialReports }: { initialReports: Report[] }) {
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            filteredReports.map((report) => (
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            filteredReports.map((report: any) => (
                                 <TableRow key={report.id}>
                                     <TableCell className="font-mono text-sm font-medium">{report.anonymous_id}</TableCell>
                                     <TableCell className="capitalize">{report.violence_type?.replace(/_/g, ' ')}</TableCell>

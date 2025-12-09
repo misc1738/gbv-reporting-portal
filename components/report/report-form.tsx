@@ -7,7 +7,6 @@
 
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
 import { IncidentDetailsStep } from "./steps/incident-details-step"
 import { RiskAssessmentStep } from "./steps/risk-assessment-step"
 import { EvidenceUploadStep } from "./steps/evidence-upload-step"
@@ -127,8 +126,6 @@ export function ReportForm() {
   if (!isLoaded) {
     return null // or a loading spinner
   }
-
-  const progress = (currentStep / STEPS.length) * 100
 
   return (
     <div className="max-w-3xl mx-auto space-y-8 pb-12">

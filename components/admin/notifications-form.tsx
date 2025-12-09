@@ -49,7 +49,7 @@ export function NotificationsForm() {
                     Send Notification
                 </CardTitle>
                 <CardDescription>
-                    Send alerts or updates to users. Use 'All Users' for general announcements.
+                    Send alerts or updates to users. Use &apos;All Users&apos; for general announcements.
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -113,6 +113,7 @@ export function NotificationsForm() {
                         />
                     </div>
 
+                    <span className="text-muted-foreground">Target specific user groups (e.g., &apos;Counselors&apos;, &apos;Police&apos;).</span>
                     <div className="flex justify-end">
                         <Button type="submit" disabled={loading}>
                             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
