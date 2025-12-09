@@ -20,7 +20,8 @@ export default function ReportPage() {
 
       <main className="flex-1 py-12 relative overflow-hidden">
         {/* Background Gradients */}
-        <div className="absolute inset-0 bg-gradient-hero opacity-30 -z-10" />
+        <div className="absolute inset-0 bg-[url('/images/report-bg.png')] bg-cover bg-center -z-10 opacity-40 mix-blend-overlay" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 to-background/40 -z-10" />
 
         <div className="container max-w-4xl relative z-10">
           <div className="space-y-8">

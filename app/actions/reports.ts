@@ -2,6 +2,7 @@
 
 import { getSupabaseServerClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
+import { randomUUID } from "node:crypto"
 
 interface CreateReportData {
   violenceType: string
@@ -73,9 +74,11 @@ export async function createReport(data: CreateReportData) {
       userId = user.id
     }
 
-    const { data: report, error: reportError } = await supabase
+    const reportId = randomUUID()
+    const { error: reportError } = await supabase
       .from("reports")
       .insert({
+        id: reportId,
         user_id: userId,
         anonymous_id: anonymousId,
         violence_type: data.violenceType,
@@ -86,8 +89,6 @@ export async function createReport(data: CreateReportData) {
         risk_level: level,
         is_anonymous: data.isAnonymous,
       })
-      .select()
-      .single()
 
     if (reportError) {
       console.error("Report creation error:", reportError)
@@ -97,7 +98,7 @@ export async function createReport(data: CreateReportData) {
     const { error: riskError } = await supabase
       .from("risk_assessments")
       .insert({
-        report_id: report.id,
+        report_id: reportId,
         immediate_danger: data.immediateDanger || false,
         has_weapons: data.hasWeapons || false,
         threats_made: data.threatsMade || false,
@@ -117,7 +118,7 @@ export async function createReport(data: CreateReportData) {
       const { error: safetyError } = await supabase
         .from("safety_plans")
         .insert({
-          report_id: report.id,
+          report_id: reportId,
           user_id: userId,
           emergency_contacts: data.emergencyContacts || [],
           safe_locations: data.safeLocations || [],
@@ -135,7 +136,7 @@ export async function createReport(data: CreateReportData) {
     return {
       success: true,
       data: {
-        reportId: report.id,
+        reportId: reportId,
         anonymousId: anonymousId,
         riskLevel: level,
       },
