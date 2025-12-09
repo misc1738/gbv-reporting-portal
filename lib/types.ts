@@ -57,7 +57,7 @@ export interface Report {
 export interface ReportFormData {
   // Incident Details
   violenceType: ViolenceType
-  incidentDate?: Date
+  incidentDate?: string
   incidentLocation?: string
   description: string
   isAnonymous: boolean

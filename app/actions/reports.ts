@@ -2,36 +2,9 @@
 
 import { getSupabaseServerClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
+import type { ReportFormData } from "@/lib/types"
 
-interface CreateReportData {
-  violenceType: string
-  incidentDate?: string
-  incidentLocation?: string
-  description: string
-  isAnonymous: boolean
-  immediateDanger?: boolean
-  hasWeapons?: boolean
-  threatsMade?: boolean
-  previousViolence?: boolean
-  substanceAbuse?: boolean
-  isolation?: boolean
-  financialControl?: boolean
-  emergencyContacts?: Array<{ name: string; phone: string; relationship: string }>
-  safeLocations?: Array<{ name: string; address: string; notes?: string }>
-  escapePlan?: string
-  importantDocuments?: string[]
-  demographics?: {
-    ageGroup?: string
-    gender?: string
-    isDisplaced?: boolean
-  }
-  perpetratorDetails?: {
-    relationship?: string
-    knownToVictim?: boolean
-    multiplePerpetrators?: boolean
-  }
-}
-
+// Helper functions not exported
 function generateAnonymousId(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
   let id = "GBV-"
@@ -41,7 +14,7 @@ function generateAnonymousId(): string {
   return id
 }
 
-function calculateRiskScore(data: CreateReportData): { score: number; level: string } {
+function calculateRiskScore(data: ReportFormData): { score: number; level: string } {
   let score = 0
 
   if (data.immediateDanger) score += 20
@@ -60,7 +33,7 @@ function calculateRiskScore(data: CreateReportData): { score: number; level: str
   return { score, level }
 }
 
-export async function createReport(data: CreateReportData) {
+export async function createReport(data: ReportFormData) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
